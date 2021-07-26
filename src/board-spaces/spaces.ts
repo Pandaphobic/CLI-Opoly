@@ -12,18 +12,21 @@ class Space {
 }
 
 // prettier-ignore
-class Property extends Space {
+class Property extends Space { 
   color: string;                            // What color this property belongs to
   price: number;                            // Price to purchaseint
   rent: number;                             // Base rent price
   mortgage_status: boolean;                 // Is this propery mortgaged
+  owner: string;                            // Name of Player who owns property (validated)
 
-  constructor(a: string, b: number, c: string, d: number, e: number, f: boolean) {
+
+  constructor(a: string, b: number, c: string, d: number, e: number, f: boolean, g: string) {
     super(a, b);
     this.color = c;                     
     this.price = d;                     
     this.rent = e;                       
     this.mortgage_status = f; 
+    this.owner = g;
   }
 }
 // prettier-ignore
