@@ -1,0 +1,23 @@
+{
+  "devDependencies": {
+    "@types/node": "^16.4.3"
+  },
+  "name": "cli-opoly",
+  "description": "CLI-Opoly - A terrible rendition of a classic game!",
+  "version": "1.0.0",
+  "main": "./public/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node public/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pandaphobic/CLI-Opoly.git"
+  },
+  "author": "Pandaphobic - Chris Steffes",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Pandaphobic/CLI-Opoly/issues"
+  },
+  "homepage": "https://github.com/Pandaphobic/CLI-Opoly#readme"
+}

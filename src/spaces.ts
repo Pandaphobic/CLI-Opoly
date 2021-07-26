@@ -1,7 +1,7 @@
 /*  Using Classes to Describe the traits for each space type on the board  */
 
 // prettier-ignore
-class Space {
+export class Space {
   name: string;                             // Name Ex. Boardwalk, Go, Jail
   occupants: number;                        // Array of players currently on space
 
@@ -12,7 +12,7 @@ class Space {
 }
 
 // prettier-ignore
-class Property extends Space { 
+export class Property extends Space { 
   color: string;                            // What color this property belongs to
   price: number;                            // Price to purchaseint
   rent: number;                             // Base rent price

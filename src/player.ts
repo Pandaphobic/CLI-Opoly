@@ -1,7 +1,7 @@
-import Property from "../board-spaces/spaces";
+import { Property } from "./spaces";
 
 // prettier-ignore
-class Player {
+export class Player {
   name: string;                                 // Player display name
   turn: boolean;                                // Is it this players turn?
   money: number;                                // Amount of money player has
@@ -12,5 +12,9 @@ class Player {
     this.turn = b;
     this.money = c;
     this.owned_properties = d;
+  }
+
+  pay = (recipient: string, money: number) => {
+    console.log(`${this.name} has paid ${recipient} $${money}`)
   }
 }
