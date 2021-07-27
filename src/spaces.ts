@@ -1,6 +1,5 @@
 /*  Using Classes to Describe the traits for each space type on the board  */
 
-// prettier-ignore
 export class Space {
   name: string;                             // Name Ex. Boardwalk, Go, Jail
   occupants: number;                        // Array of players currently on space
@@ -11,7 +10,6 @@ export class Space {
   }
 }
 
-// prettier-ignore
 export class Property extends Space { 
   color: string;                            // What color this property belongs to
   price: number;                            // Price to purchaseint
@@ -29,7 +27,7 @@ export class Property extends Space {
     this.owner = g;
   }
 }
-// prettier-ignore
+
 class Go extends Space {
   salary: number;                           // Base amount received when passed
   bonus: number;                            // Bonus amount **likely to change to multiplier
@@ -40,7 +38,7 @@ class Go extends Space {
     this.bonus = d;
   }
 }
-// prettier-ignore
+
 class Tax extends Space {
   amount_owed: number;                      // Amount owed to kitty
 
@@ -49,7 +47,7 @@ class Tax extends Space {
     this.amount_owed = c;         
   }
 }
-// prettier-ignore
+
 class Free_Parking extends Space {
   kitty_value: number;                      // Money payed in taxes to be paid to free space
 
@@ -58,6 +56,7 @@ class Free_Parking extends Space {
     this.kitty_value = c;         
   }
 }
+
 class Community_Chest extends Space {
   constructor(a: string, b: number) {
     super(a, b);
@@ -75,11 +74,13 @@ class Utility extends Space {
     super(a, b);
   }
 }
+
 class Railroad extends Space {
   constructor(a: string, b: number) {
     super(a, b);
   }
 }
+
 class Jail extends Space {
   constructor(a: string, b: number) {
     super(a, b);
