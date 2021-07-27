@@ -1,0 +1,172 @@
+{
+  "chance": [
+    {
+      "text": "Advance to Boardwalk",
+      "value": "Boardwalk",
+      "type": "move"
+    },
+    {
+      "text": "Advance to Go (Collect $200)",
+      "value": "Go",
+      "type": "move"
+    },
+    {
+      "text": "Advance to Illinois Avenue. If you pass Go, collect $200",
+      "value": "Illinois Avenue",
+      "type": "move"
+    },
+    {
+      "text": "Advance to St. Charles Place. If you pass Go, collect $200",
+      "value": "St. Charles Place",
+      "type": "move"
+    },
+    {
+      "text": "Advance to the nearest Railroad. If unowned, you may buy it from the Bank. If owned, pay wonder twice the rental to which they are otherwise entitled",
+      "value": "Railroad",
+      "type": "move"
+    },
+    {
+      "text": "Advance to the nearest Railroad. If unowned, you may buy it from the Bank. If owned, pay wonder twice the rental to which they are otherwise entitled",
+      "value": "Railroad",
+      "type": "move"
+    },
+    {
+      "text": "Advance token to nearest Utility. If unowned, you may buy it from the Bank. If owned, throw dice and pay owner a total ten times amount thrown.",
+      "value": "Utility",
+      "type": "move"
+    },
+    {
+      "text": "Bank pays you dividend of $50",
+      "value": 50,
+      "type": "collect"
+    },
+    {
+      "text": "Get Out of Jail Free",
+      "value": "",
+      "type": "GOOJF"
+    },
+    {
+      "text": "Go Back 3 Spaces",
+      "value": "back-3",
+      "type": "move"
+    },
+    {
+      "text": "Go to Jail. Go directly to Jail, do not pass Go, do not collect $200",
+      "value": "Jail",
+      "type": "move"
+    },
+    {
+      "text": "Make general repairs on all your property. For each house pay $25. For each hotel pay $100",
+      "value": [
+        25,
+        100
+      ],
+      "type": "dynamic-pay"
+    },
+    {
+      "text": "Speeding fine $15",
+      "value": "",
+      "type": ""
+    },
+    {
+      "text": "Take a trip to Reading Railroad. If you pass Go, collect $200",
+      "value": "Reading Railroad",
+      "type": "move"
+    },
+    {
+      "text": "You have been elected Chairman of the Board. Pay each player $50",
+      "value": 50,
+      "type": "pay-per-player"
+    },
+    {
+      "text": "Your building loan matures. Collect $150",
+      "value": 150,
+      "type": "collect"
+    }
+  ],
+
+  "community_chest": [
+    {
+      "text": "Advance to Go (Collect $200)",
+      "value": 200,
+      "type": "collect"
+    },
+    {
+      "text": "Bank error in your favor. Collect $200",
+      "value": 200,
+      "type": "collect"
+    },
+    {
+      "text": "Doctor’s fee. Pay $50",
+      "value": 50,
+      "type": "pay"
+    },
+    {
+      "text": "From sale of stock you get $50",
+      "value": 50,
+      "type": "collect"
+    },
+    {
+      "text": "Get Out of Jail Free",
+      "type": "GOOJF"
+    },
+    {
+      "text": "Go to Jail. Go directly to jail, do not pass Go, do not collect $200",
+      "value": "Jail",
+      "type": "move"
+    },
+    {
+      "text": "Holiday fund matures. Receive $100",
+      "value": 100,
+      "type": "collect"
+    },
+    {
+      "text": "Income tax refund. Collect $20",
+      "value": 20,
+      "type": "collect"
+    },
+    {
+      "text": "It is your birthday. Collect $10 from every player",
+      "value": 10,
+      "type": "collect"
+    },
+    {
+      "text": "Life insurance matures. Collect $100",
+      "value": 100,
+      "type": "collect"
+    },
+    {
+      "text": "Pay hospital fees of $100",
+      "value": 100,
+      "type": "pay"
+    },
+    {
+      "text": "Pay school fees of $50",
+      "value": 50,
+      "type": "pay"
+    },
+    {
+      "text": "Receive $25 consultancy fee",
+      "value": 25,
+      "type": "collect"
+    },
+    {
+      "text": "You are assessed for street repair. $40 per house. $115 per hotel",
+      "value": [
+        40,
+        115
+      ],
+      "type": "dynamic-pay"
+    },
+    {
+      "text": "You have won second prize in a beauty contest. Collect $10",
+      "value": 10,
+      "type": "collect"
+    },
+    {
+      "text": "You inherit $100",
+      "value": 100,
+      "type": "collect"
+    }
+  ]
+}
