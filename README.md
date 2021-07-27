@@ -4,29 +4,8 @@ CLI-Opoly - A terrible rendition of a classic game!
 
 ### Early Mockup
 
-[                 LEGEND                   ]
-🏁 - Go Space             🆓 - Free Parking
-💰 - Community Chest      🟦 - Blue Property
-🚂 - Railroad             🟩 - Blue Property
-🤞 - Chance               🟨 - Blue Property
-🏛️ - Pay Taxes            🟥 - Blue Property
-🏦 - Jail                 🟧 - Blue Property
-🚔 - Goto Jail            🟪 - Blue Property
-💡 - Electric Company     ⬜ - Blue Property
-🚰 - Water                🟫 - Blue Property
+![cropped-board](https://user-images.githubusercontent.com/11794877/127191507-f1add4b0-e870-4013-9336-9f6dcbac1ab4.png)
 
-
-[🆓][🟥][🤞][🟥][🟥][🚂][🟨][🟨][🚰][🟨][🚔] 
-[🟧]                                     [🟩] 
-[🟧]                                     [🟩] 
-[💰]                                     [💰] 
-[🟧]                                     [🟩] 
-[🚂]         CLI-Opoly Board             [🚂] 
-[🟪]                                     [🤞] 
-[🟪]                                     [🟦] 
-[💡]                                     [🏦] 
-[🟪]                                     [🟦] 
-[🏦][⬜][⬜][🤞][⬜][🚂][🏛️][🟫][💰][🟫][🏁] 
 
 ### Game Logic Flow Chart (WIP)
 
