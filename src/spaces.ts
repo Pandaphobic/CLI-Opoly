@@ -1,11 +1,13 @@
 /*  Using Classes to Describe the traits for each space type on the board  */
 
+import { Player } from "./player";
+
 export class Space {
   name: string;                             // Name Ex. Boardwalk, Go, Jail
-  occupants: string[];                        // Array of players currently on space
+  occupants: Player[];                        // Array of players currently on space
   symbol: string;
 
-  constructor(name: string, occupants: string[], symbol: string) {
+  constructor(name: string, occupants: Player[], symbol: string) {
     this.name = name;
     this.occupants = occupants;
     this.symbol = symbol;
@@ -21,7 +23,7 @@ export class Property extends Space {
   
 
 
-  constructor(name: string, occupants: string[], symbol: string, owner: string, color: string, price: number, rent: number, mortgage_status: boolean)  {
+  constructor(name: string, occupants: Player[], symbol: string, owner: string, color: string, price: number, rent: number, mortgage_status: boolean)  {
   
     super(name, occupants, symbol);
     this.owner = owner;

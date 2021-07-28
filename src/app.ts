@@ -42,3 +42,7 @@ whoGoesFirst(Players);
 
 // Highest first roll of the dice by the winner
 const winnerDice = whosTurnIsIt(Players).rollDice();
+
+// Move user to the appropriate space
+Board[winnerDice].occupants.push(whosTurnIsIt(Players));
+console.log(Board[winnerDice]);
