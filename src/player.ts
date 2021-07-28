@@ -6,12 +6,14 @@ export class Player {
   turn: boolean;                                // Is it this players turn?
   money: number;                                // Amount of money player has
   owned_properties: Property[];                 // Array of properties owened by player
+  current_position: number;
 
-  constructor(name: string, turn: boolean, money: number, owned_properties: Property[]) {
+  constructor(name: string, turn: boolean, money: number, owned_properties: Property[], current_position: number) {
     this.name = name;
     this.turn = turn;
     this.money = money;
     this.owned_properties = owned_properties;
+    this.current_position = current_position;
     //COLLATERAL - ROLLING COUNT
   }
 
