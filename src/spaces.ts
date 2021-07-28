@@ -2,11 +2,13 @@
 
 export class Space {
   name: string;                             // Name Ex. Boardwalk, Go, Jail
-  occupants: number;                        // Array of players currently on space
+  occupants: string[];                        // Array of players currently on space
+  symbol: string;
 
-  constructor(a: string, b: number) {
-    this.name = a;
-    this.occupants = b;
+  constructor(name: string, occupants: string[], symbol: string) {
+    this.name = name;
+    this.occupants = occupants;
+    this.symbol = symbol;
   }
 }
 
@@ -16,73 +18,77 @@ export class Property extends Space {
   rent: number;                             // Base rent price
   mortgage_status: boolean;                 // Is this propery mortgaged
   owner: string;                            // Name of Player who owns property (validated)
+  
 
 
-  constructor(a: string, b: number, c: string, d: number, e: number, f: boolean, g: string) {
-    super(a, b);
-    this.color = c;                     
-    this.price = d;                     
-    this.rent = e;                       
-    this.mortgage_status = f; 
-    this.owner = g;
+  constructor(name: string, occupants: string[], symbol: string, owner: string, color: string, price: number, rent: number, mortgage_status: boolean)  {
+  
+    super(name, occupants, symbol);
+    this.owner = owner;
+    this.symbol = symbol;
+    this.color = color;                     
+    this.price = price;                     
+    this.rent = rent;                       
+    this.mortgage_status = mortgage_status; 
+    
   }
 }
 
-class Go extends Space {
-  salary: number;                           // Base amount received when passed
-  bonus: number;                            // Bonus amount **likely to change to multiplier
+// class Go extends Space {
+//   salary: number;                           // Base amount received when passed
+//   bonus: number;                            // Bonus amount **likely to change to multiplier
 
-  constructor(a: string, b: number, c: number, d: number) {
-    super(a, b);
-    this.salary = c;
-    this.bonus = d;
-  }
-}
+//   constructor(a: string, b: number, c: number, d: number) {
+//     super(a, b);
+//     this.salary = c;
+//     this.bonus = d;
+//   }
+// }
 
-class Tax extends Space {
-  amount_owed: number;                      // Amount owed to kitty
+// class Tax extends Space {
+//   amount_owed: number;                      // Amount owed to kitty
 
-  constructor(a: string, b: number, c: number ) {
-    super(a,b)
-    this.amount_owed = c;         
-  }
-}
+//   constructor(a: string, b: number, c: number ) {
+//     super(a,b)
+//     this.amount_owed = c;         
+//   }
+// }
 
-class Free_Parking extends Space {
-  kitty_value: number;                      // Money payed in taxes to be paid to free space
+// class Free_Parking extends Space {
+//   kitty_value: number;                      // Money payed in taxes to be paid to free space
 
-  constructor(a: string, b: number, c: number) {
-    super(a,b)
-    this.kitty_value = c;         
-  }
-}
+//   constructor(a: string, b: number, c: number) {
+//     super(a,b)
+//     this.kitty_value = c;         
+//   }
+// }
 
-class Community_Chest extends Space {
-  constructor(a: string, b: number) {
-    super(a, b);
-  }
-}
+// class Community_Chest extends Space {
+//   constructor(a: string, b: number) {
+//     super(a, b);
+//   }
+// }
 
-class Chance extends Space {
-  constructor(a: string, b: number) {
-    super(a, b);
-  }
-}
+// class Chance extends Space {
+//   constructor(a: string, b: number) {
+//     super(a, b);
+//   }
+// }
 
-class Utility extends Space {
-  constructor(a: string, b: number) {
-    super(a, b);
-  }
-}
+// class Utility extends Space {
+//   constructor(a: string, b: number) {
+//     super(a, b);
+//   }
+// }
 
-class Railroad extends Space {
-  constructor(a: string, b: number) {
-    super(a, b);
-  }
-}
+// class Railroad extends Space {
+//   constructor(a: string, b: number) {
+//     super(a, b);
+//   }
+// }
 
-class Jail extends Space {
-  constructor(a: string, b: number) {
-    super(a, b);
-  }
-}
+// class Jail extends Space {
+//   constructor(a: string, b: number) {
+//     super(a, b);
+//   }
+// }
