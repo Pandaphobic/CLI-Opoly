@@ -58,7 +58,7 @@ const movePlayer = (turn: any[]) => {
   turn[1].current_position = newSpace;
 
   // // Move user to the current position
-  Board[turn[1].current_position].occupants.push(whosTurnIsIt(Players)[1]);
+  Board[turn[1].current_position].occupants.push(turn[1]);
 
   // Log Result
   console.log(Board[turn[1].current_position]);
