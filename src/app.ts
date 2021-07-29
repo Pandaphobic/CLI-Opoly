@@ -48,33 +48,45 @@ const whosTurnIsIt = (Players: Player[]) => {
 };
 
 const movePlayer = (turn: any[]) => {
-  console.log(turn[0]);
-  console.log(turn[1]);
-  // console.log(`Move: ${Player.name}`);
-  const roll = turn[1].rollDice();
-  const newSpace = turn[1].current_position + roll;
+  let [index, player] = turn;
 
-  // Update Player current_position
-  turn[1].current_position = newSpace;
+  // Players Rolls Dice
+  const roll = player.rollDice();
+  let newSpace = player.current_position + roll;
 
-  // // Move user to the current position
-  Board[turn[1].current_position].occupants.push(turn[1]);
-
-  // Log Result
-  console.log(Board[turn[1].current_position]);
-
-  // Change turn
-  turn[1].turn = false;
-  if (turn[0] + 1 > Players.length - 1) {
-    Players[0].turn = true;
-  } else {
-    Players[turn[0] + 1].turn = true;
+  // Pass over 0
+  if (newSpace > Board.length) {
+    newSpace = newSpace - Board.length;
+    // GET PAID FOR PASSING 0
   }
 
-  console.log(Players);
+  // Update Player current_position
+  player.current_position = newSpace;
+
+  // // Move user to the current position
+  Board[player.current_position].occupants.push(player);
+  console.log(`${player.name} moved to ${player.current_position}`);
+
+  // Log Result
+  // console.log(Board[turn[1].current_position]);
+
+  // Change turn
+  player.turn = false;
+  if (index + 1 > Players.length - 1) {
+    Players[0].turn = true;
+  } else {
+    Players[index + 1].turn = true;
+  }
 };
 
 // Determine who goes first
 whoGoesFirst(Players);
 movePlayer(whosTurnIsIt(Players));
-// console.log(whosTurnIsItAnyway(Players));
+movePlayer(whosTurnIsIt(Players));
+movePlayer(whosTurnIsIt(Players));
+movePlayer(whosTurnIsIt(Players));
+movePlayer(whosTurnIsIt(Players));
+movePlayer(whosTurnIsIt(Players));
+movePlayer(whosTurnIsIt(Players));
+movePlayer(whosTurnIsIt(Players));
+movePlayer(whosTurnIsIt(Players));
