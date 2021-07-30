@@ -20,8 +20,6 @@ export class Property extends Space {
   rent: number;                             // Base rent price
   mortgage_status: boolean;                 // Is this propery mortgaged
   owner: string;                            // Name of Player who owns property (validated)
-  
-
 
   constructor(name: string, occupants: Player[], symbol: string, owner: string, color: string, price: number, rent: number, mortgage_status: boolean)  {
   

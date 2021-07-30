@@ -73,8 +73,13 @@ const player_properties_details: object = {
 
 var player_explorer = grid.set(0, 0, 1, 3, blessed.list, {
   style: {
-    fg: "white",
+    focus: {
+      border: {
+        fg: "blue",
+      },
+    },
   },
+
   selectedBg: "cyan",
   template: { lines: true },
   label: `${chalk.bold.greenBright("Player Explorer")}`,
@@ -86,6 +91,11 @@ var player_explorer = grid.set(0, 0, 1, 3, blessed.list, {
 });
 
 var player_properties = grid.set(1, 0, 1, 3, contrib.table, {
+  focus: {
+    border: {
+      fg: "blue",
+    },
+  },
   keys: true,
   fg: "white",
   selectedFg: "white",
@@ -100,6 +110,12 @@ var player_properties = grid.set(1, 0, 1, 3, contrib.table, {
 });
 
 var current_space_details = grid.set(2, 0, 1, 3, contrib.table, {
+  focus: {
+    border: {
+      fg: "blue",
+    },
+  },
+
   keys: true,
   fg: "white",
   selectedFg: "white",
@@ -140,6 +156,12 @@ player_explorer.on("select", function (node: any) {
 });
 
 var trade = grid.set(3, 0, 1, 3, contrib.table, {
+  focus: {
+    border: {
+      fg: "blue",
+    },
+  },
+
   keys: true,
   fg: "white",
   selectedFg: "white",
@@ -154,6 +176,12 @@ var trade = grid.set(3, 0, 1, 3, contrib.table, {
 });
 
 var buy_sell_houses = grid.set(3, 3, 1, 3, contrib.table, {
+  focus: {
+    border: {
+      fg: "blue",
+    },
+  },
+
   keys: true,
   fg: "white",
   selectedFg: "white",
@@ -168,6 +196,13 @@ var buy_sell_houses = grid.set(3, 3, 1, 3, contrib.table, {
 });
 
 var turn_prompts = grid.set(3, 6, 1, 3, contrib.table, {
+  style: {
+    focus: {
+      border: {
+        fg: "blue",
+      },
+    },
+  },
   keys: true,
   fg: "white",
   selectedFg: "white",
@@ -182,6 +217,13 @@ var turn_prompts = grid.set(3, 6, 1, 3, contrib.table, {
 });
 
 var chat_box = grid.set(1, 9, 3, 3, contrib.table, {
+  style: {
+    focus: {
+      border: {
+        fg: "blue",
+      },
+    },
+  },
   keys: true,
   fg: "white",
   selectedFg: "white",
@@ -195,13 +237,30 @@ var chat_box = grid.set(1, 9, 3, 3, contrib.table, {
   columnWidth: [16, 12, 12] /*in chars*/,
 });
 
-var log = grid.set(0, 9, 1, 3, contrib.log, {
+var log = grid.set(0, 9, 1, 3, blessed.log, {
+  style: {
+    focus: {
+      border: {
+        fg: "blue",
+      },
+    },
+  },
+
   fg: "green",
   selectedFg: "green",
   label: "Turn History",
 });
 
-var map = grid.set(0, 3, 3, 6, contrib.map, { label: "Board" });
+var map = grid.set(0, 3, 3, 6, contrib.map, {
+  label: "Board",
+  style: {
+    focus: {
+      border: {
+        fg: "blue",
+      },
+    },
+  },
+});
 
 screen.key(["escape", "q", "C-c"], function () {
   return process.exit(0);
@@ -209,24 +268,12 @@ screen.key(["escape", "q", "C-c"], function () {
 
 screen.key(["tab"], function () {
   screen.focusNext();
-  focusedDraw();
+  // focusedDraw();
   screen.render();
 });
 
-function focusedDraw() {
-  // if (screen.focused === player_explorer.rows) {
-  //   player_explorer.setLabel(`${chalk.bgMagentaBright("Soemthing")}`);
-  // } else {
-  //   player_explorer.setLabel(`${chalk.bgWhiteBright.black("Players")}`);
-  // }
-  // player_details
-  // trade
-  // buy_sell_houses
-  // chat
-}
-
 player_explorer.focus();
-focusedDraw();
+// focusedDraw();
 screen.render();
 
 export function logTurn(message: string) {
