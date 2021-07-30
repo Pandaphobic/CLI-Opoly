@@ -1,5 +1,6 @@
 import { Property } from "./spaces";
 import { Player } from "./player";
+import { logTurn } from "./app";
 
 class Board {
   /* The Board Object shall be treated as the Game State
@@ -52,30 +53,75 @@ export const BuildBoard = () => {
   return board;
 };
 
-/*
+export const whoGoesFirst = (Players: Player[]) => {
+  let highRoll = 0;
+  let winner: Player = Players[0];
+  let winnerIndex = 0;
 
-[                 LEGEND                   ]
-🏁 - Go Space             🆓 - Free Parking
-💰 - Community Chest      🟦 - Blue Property
-🚂 - Railroad             🟩 - Green Property
-🤞 - Chance               🟨 - Yellow Property
-🏛️ - Pay Taxes            🟥 - Red Property
-🏦 - Jail                 🟧 - Orange Property
-🚔 - Goto Jail            🟪 - Purple Property
-💡 - Electric Company     ⬜ - White Property
-🚰 - Water                🟫 - Brown Property
+  // each player roll, update highest when roll >= last roll
+  Players.forEach((player, index) => {
+    let roll = player.rollDice();
+    if (roll >= highRoll) {
+      highRoll = roll;
+      winner = Players[index];
+      winnerIndex = index;
+    }
+  });
 
+  // It is now the winners turn
+  Players[winnerIndex].turn = true;
+  logTurn(`${winner.name} won the highest roll with ${highRoll}`);
+};
 
-[🆓][🟥][🤞][🟥][🟥][🚂][🟨][🟨][🚰][🟨][🚔] 
-[🟧]                                     [🟩] 
-[🟧]                                     [🟩] 
-[💰]                                     [💰] 
-[🟧]                                     [🟩] 
-[🚂]         CLI-Opoly Board             [🚂] 
-[🟪]                                     [🤞] 
-[🟪]                                     [🟦] 
-[💡]                                     [🏦] 
-[🟪]                                     [🟦] 
-[🏦][⬜][⬜][🤞][⬜][🚂][🏛️][🟫][💰][🟫][🏁] 
+export const whosTurnIsIt = (Players: Player[]) => {
+  let index = 0;
+  let turn: Player;
+  let result: any[] = [];
 
-*/
+  Players.forEach((player, i) => {
+    if (player.turn == true) {
+      index = i;
+      turn = player;
+      result.push(index);
+      result.push(turn);
+    }
+  });
+
+  return result;
+};
+
+export const movePlayer = (
+  turn: any[],
+  Board: Property[],
+  Players: Player[]
+) => {
+  let [index, player] = turn;
+
+  // Players Rolls Dice
+  const roll = player.rollDice();
+  let newSpace = player.current_position + roll;
+
+  // Pass over 0
+  if (newSpace > Board.length) {
+    newSpace = newSpace - Board.length;
+    // GET PAID FOR PASSING 0
+  }
+
+  // Update Player current_position
+  player.current_position = newSpace;
+
+  // // Move user to the current position
+  Board[player.current_position].occupants.push(player);
+  logTurn(`${player.name} moved to ${player.current_position}`);
+
+  // Log Result
+  // log.log(Board[turn[1].current_position]);
+
+  // Change turn
+  player.turn = false;
+  if (index + 1 > Players.length - 1) {
+    Players[0].turn = true;
+  } else {
+    Players[index + 1].turn = true;
+  }
+};

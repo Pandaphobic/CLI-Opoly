@@ -8,7 +8,8 @@
   "main": "./public/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node public/app.js"
+    "start": "node public/app.js",
+    "compiler": "tsc -w"
   },
   "repository": {
     "type": "git",
@@ -19,5 +20,11 @@
   "bugs": {
     "url": "https://github.com/Pandaphobic/CLI-Opoly/issues"
   },
-  "homepage": "https://github.com/Pandaphobic/CLI-Opoly#readme"
+  "homepage": "https://github.com/Pandaphobic/CLI-Opoly#readme",
+  "dependencies": {
+    "blessed": "^0.1.81",
+    "blessed-contrib": "^4.10.1",
+    "chalk": "^4.1.2",
+    "node-emoji": "^1.10.0"
+  }
 }
