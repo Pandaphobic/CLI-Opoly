@@ -34,8 +34,8 @@ var player_details = grid.set(2, 0, 1, 2, contrib.table, {
   width: "30%",
   height: "30%",
   border: { type: "line", fg: "cyan" },
-  columnSpacing: 0, //in chars
-  columnWidth: [0, 0, 0] /*in chars*/,
+  columnSpacing: 5, //in chars
+  columnWidth: [5, 5, 5] /*in chars*/,
 });
 
 var player_explorer = grid.set(0, 0, 2, 2, contrib.tree, {
@@ -48,49 +48,52 @@ var player_explorer = grid.set(0, 0, 2, 2, contrib.tree, {
   padding: 0,
 });
 
+player_explorer.on("select", function (node: any) {
+  let properties = node.properties;
+  var data: any[] = [];
+
+  for (let i = 0; i < properties.length; i++) {
+    data.push([
+      properties[i].name,
+      properties[i].price,
+      properties[i].mortgaged,
+    ]);
+  }
+
+  console.log(data);
+
+  // fs.writeFile("log.txt", data, function (err) {
+  //   if (err) return console.log(err);
+  // });
+  // // Add data to right array
+  // try {
+  //   // Add results
+  //   fs.writeFile("log.txt", JSON.stringify(node.Properties), function (err) {
+  //     if (err) return console.log(err);
+  //     console.log("Hello World > helloworld.txt");
+  //   });
+  // } catch (e) {
+  //   player_details.setData({ headers: ["Info"], data: [[e.toString()]] });
+  // }
+
+  player_details.setData({
+    headers: ["Name", "Price", "Mortgaged"],
+    data: data,
+  });
+
+  screen.render();
+});
+
 //set tree
 player_explorer.setData({
   extended: true,
   children: {
     Chris: {
-      children: {
-        Properties: ["baltic", "boardwalk"],
-        Wallet: {
-          Cash: "$500",
-          Loans: "$0",
-          Cards: {},
-        },
-      },
-    },
-    Calista: {
-      children: {
-        Properties: ["baltic", "boardwalk"],
-        Wallet: {
-          Cash: "500",
-          Loans: {},
-          Cards: {},
-        },
-      },
-    },
-    Michael: {
-      children: {
-        Properties: ["baltic", "boardwalk"],
-        Wallet: {
-          Cash: "500",
-          Loans: {},
-          Cards: {},
-        },
-      },
-    },
-    Megan: {
-      children: {
-        Properties: ["baltic", "boardwalk"],
-        Wallet: {
-          Cash: "500",
-          Loans: {},
-          Cards: {},
-        },
-      },
+      properties: [
+        { name: "Baltic", price: 500, mortgaged: false },
+        { name: "Boardwalk", price: 1000, mortgaged: true },
+        { name: "Cherry Ave", price: 250, mortgaged: false },
+      ],
     },
   },
 });
