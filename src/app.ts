@@ -1,7 +1,7 @@
 import { Player } from "./player";
 import { BuildBoard } from "./game";
 const blessed = require("blessed");
-import contrib from "blessed-contrib";
+import contrib = require("blessed-contrib");
 import fs from "fs";
 import path from "path";
 import { whoGoesFirst, whosTurnIsIt, movePlayer } from "./game";
@@ -21,81 +21,122 @@ Players.push(new Player("Megan", false, 1500, [], 0));
 
 var screen = blessed.screen();
 screen.title = "CLI-Opoly - A CLI Take on the Classic Game!";
-//create layout and widgets
+
+// INSTANTIATE GRID LAYOUT
 var grid = new contrib.grid({ rows: 4, cols: 12, screen: screen });
 
-var player_details = grid.set(2, 0, 1, 2, contrib.table, {
-  keys: true,
-  fg: "white",
-  selectedFg: "black",
-  selectedBg: "cyan",
-  interactive: true,
-  label: `${chalk.bold("Details")}`,
-  width: "30%",
-  height: "30%",
-  border: { type: "line", fg: "cyan" },
-  columnSpacing: 5, //in chars
-  columnWidth: [5, 5, 5] /*in chars*/,
-});
+// THIS SHOULD BE REPLACED WITH PLAYER OBJECT
+const player_properties_details: object = {
+  Chris: {
+    properties: [
+      { name: "Baltic", price: 500, mortgaged: "yes" },
+      { name: "Boardwalk", price: 1000, mortgaged: "yes" },
+      { name: "Cherry Ave", price: 250, mortgaged: "no" },
+    ],
+  },
+  Calista: {
+    properties: [
+      { name: "Sommerset", price: 150, mortgaged: "no" },
+      { name: "Chincy", price: 500, mortgaged: "no" },
+      { name: "Varro", price: 200, mortgaged: "no" },
+      { name: "Zulex", price: 50, mortgaged: "no" },
+      { name: "Varro", price: 200, mortgaged: "yes" },
+      { name: "Campala", price: 50, mortgaged: "no" },
+      { name: "Getzchen", price: 200, mortgaged: "yes" },
+      { name: "Fourth Manor", price: 50, mortgaged: "no" },
+    ],
+  },
+  Megan: {
+    properties: [
+      { name: "Canto", price: 150, mortgaged: "yes" },
+      { name: "Marvintyne", price: 500, mortgaged: "yes" },
+      { name: "Esto Besto", price: 200, mortgaged: "no" },
+      { name: "The Shore", price: 50, mortgaged: "no" },
+      { name: "Antabanto", price: 200, mortgaged: "yes" },
+      { name: "Solef", price: 50, mortgaged: "no" },
+      { name: "Carjuste", price: 200, mortgaged: "no" },
+    ],
+  },
+  Michael: {
+    properties: [
+      { name: "Chadsworth", price: 150, mortgaged: "yes" },
+      { name: "Douchington", price: 500, mortgaged: "no" },
+      { name: "Mesaclynn", price: 200, mortgaged: "no" },
+      { name: "MlonEusk", price: 50, mortgaged: "no" },
+      { name: "Bud Fight", price: 200, mortgaged: "no" },
+      { name: "Titsdale", price: 50, mortgaged: "no" },
+      { name: "Soda Valley", price: 200, mortgaged: "no" },
+      { name: "Bronx", price: 50, mortgaged: "no" },
+    ],
+  },
+};
 
-var player_explorer = grid.set(0, 0, 2, 2, contrib.tree, {
+var player_explorer = grid.set(0, 0, 1, 3, blessed.list, {
   style: {
     fg: "white",
   },
   selectedBg: "cyan",
   template: { lines: true },
-  label: `${chalk.bold("Player Explorer")}`,
+  label: `${chalk.bold.greenBright("Player Explorer")}`,
   padding: 0,
+  interactive: true,
+  mouse: true,
+  keys: true,
+  items: Players.map(player => player.name),
 });
 
+var player_properties = grid.set(1, 0, 1, 3, contrib.table, {
+  keys: true,
+  fg: "white",
+  selectedFg: "white",
+  selectedBg: "black",
+  interactive: true,
+  label: `${chalk.bold.greenBright("Properties")}`,
+  width: "30%",
+  height: "30%",
+  border: { type: "line", fg: "cyan" },
+  columnSpacing: 4, //in chars
+  columnWidth: [16, 5, 5] /*in chars*/,
+});
+
+var current_space_details = grid.set(2, 0, 1, 3, contrib.table, {
+  keys: true,
+  fg: "white",
+  selectedFg: "white",
+  selectedBg: "black",
+  interactive: true,
+  label: `${chalk.bold.yellowBright("Current Space")}`,
+  width: "30%",
+  height: "30%",
+  border: { type: "line", fg: "cyan" },
+  columnSpacing: 4, //in chars
+  columnWidth: [16, 5, 5] /*in chars*/,
+});
+
+// THIS WILL NEED TO CHANGE TO ACCOMODATE PLAYER TYPE
 player_explorer.on("select", function (node: any) {
-  let properties = node.properties;
+  const playerName = node.content;
+  const playerProperties: [] = player_properties_details[playerName].properties;
+
+  // console.log(playerProperties[0].name);
+
+  // let properties = node.properties;
   var data: any[] = [];
 
-  for (let i = 0; i < properties.length; i++) {
+  for (let i = 0; i < playerProperties.length; i++) {
     data.push([
-      properties[i].name,
-      properties[i].price,
-      properties[i].mortgaged,
+      playerProperties[i].name,
+      playerProperties[i].price,
+      playerProperties[i].mortgaged,
     ]);
   }
 
-  console.log(data);
-
-  // fs.writeFile("log.txt", data, function (err) {
-  //   if (err) return console.log(err);
-  // });
-  // // Add data to right array
-  // try {
-  //   // Add results
-  //   fs.writeFile("log.txt", JSON.stringify(node.Properties), function (err) {
-  //     if (err) return console.log(err);
-  //     console.log("Hello World > helloworld.txt");
-  //   });
-  // } catch (e) {
-  //   player_details.setData({ headers: ["Info"], data: [[e.toString()]] });
-  // }
-
-  player_details.setData({
+  player_properties.setData({
     headers: ["Name", "Price", "Mortgaged"],
     data: data,
   });
 
   screen.render();
-});
-
-//set tree
-player_explorer.setData({
-  extended: true,
-  children: {
-    Chris: {
-      properties: [
-        { name: "Baltic", price: 500, mortgaged: false },
-        { name: "Boardwalk", price: 1000, mortgaged: true },
-        { name: "Cherry Ave", price: 250, mortgaged: false },
-      ],
-    },
-  },
 });
 
 var trade = grid.set(3, 0, 1, 3, contrib.table, {
@@ -104,7 +145,7 @@ var trade = grid.set(3, 0, 1, 3, contrib.table, {
   selectedFg: "white",
   selectedBg: "blue",
   interactive: true,
-  label: "Trade",
+  label: `${chalk.bold.yellowBright("Trade")}`,
   width: "30%",
   height: "30%",
   border: { type: "line", fg: "cyan" },
@@ -160,9 +201,7 @@ var log = grid.set(0, 9, 1, 3, contrib.log, {
   label: "Turn History",
 });
 
-var map = grid.set(0, 2, 3, 7, contrib.map, { label: "Board" });
-
-//set tree
+var map = grid.set(0, 3, 3, 6, contrib.map, { label: "Board" });
 
 screen.key(["escape", "q", "C-c"], function () {
   return process.exit(0);
