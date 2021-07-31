@@ -7,8 +7,12 @@ import path from "path";
 import { whoGoesFirst, whosTurnIsIt, movePlayer } from "./game";
 var emoji = require("node-emoji");
 import chalk = require("chalk");
+import { triggerAsyncId } from "async_hooks";
 
-var [coffee, blueSquare] = [emoji.get("coffee"), emoji.get("blueSquare")];
+var [redSquare, blueSquare] = [
+  emoji.get("red-square"),
+  emoji.get("blueSquare"),
+];
 
 const Players: Player[] = [];
 const Board = BuildBoard();
@@ -23,10 +27,10 @@ var screen = blessed.screen();
 screen.title = "CLI-Opoly - A CLI Take on the Classic Game!";
 
 // INSTANTIATE GRID LAYOUT
-var grid = new contrib.grid({ rows: 4, cols: 12, screen: screen });
+var grid = new contrib.grid({ rows: 12, cols: 12, screen: screen });
 
 // THIS SHOULD BE REPLACED WITH PLAYER OBJECT
-const player_properties_details: object = {
+const player_properties_object: object = {
   Chris: {
     properties: [
       { name: "Baltic", price: 500, mortgaged: "yes" },
@@ -71,7 +75,90 @@ const player_properties_details: object = {
   },
 };
 
-var player_explorer = grid.set(0, 0, 1, 3, blessed.list, {
+// var player_explorer = grid.set(0, 0, 2, 3, blessed.list, {
+//   style: {
+//     focus: {
+//       border: {
+//         fg: "blue",
+//       },
+//     },
+//   },
+//   selectedBg: "cyan",
+//   template: { lines: true },
+//   label: `${chalk.bold.greenBright("Player Explorer")}`,
+//   padding: 0,
+//   interactive: true,
+//   mouse: true,
+//   keys: true,
+//   items: Players.map(player => player.name),
+// });
+
+// var player_properties = grid.set(2, 0, 2, 3, blessed.list, {
+//   interactive: true,
+//   mouse: true,
+//   keys: true,
+//   style: {
+//     focus: {
+//       border: {
+//         fg: "blue",
+//       },
+//     },
+//   },
+//   label: `${chalk.bold.greenBright("Properties")}`,
+//   items: "",
+// });
+
+// var current_space_details = grid.set(4, 0, 3, 3, blessed.list, {
+//   interactive: true,
+//   mouse: true,
+//   keys: true,
+//   label: `${chalk.bold.bgYellowBright("Current Space")}`,
+//   columnSpacing: 4, //in chars
+//   columnWidth: [16, 5, 5] /*in chars*/,
+//   items: ["one", "two", "three"],
+//   style: {
+//     focus: {
+//       border: {
+//         fg: "blue",
+//       },
+//     },
+//   },
+// });
+
+// current_space_details.on("element focus", e => {
+//   e.parent.border.fg = "blue";
+// });
+
+// THIS WILL NEED TO CHANGE TO ACCOMODATE PLAYER TYPE
+// player_explorer.on("select", function (node: any) {
+//   const playerName: string = node.content;
+//   const playerProperties = player_properties_object[playerName].properties;
+
+//   // console.log(playerProperties[0].name);
+
+//   // let properties = node.properties;
+//   var data: string[] = [];
+
+//   for (let i = 0; i < playerProperties.length; i++) {
+//     data.push(
+//       playerProperties[i].name.toString(),
+//       playerProperties[i].price.toString(),
+//       playerProperties[i].mortgaged.toString()
+//     );
+//   }
+//   player_properties.setItem(data);
+
+//   // player_properties.items.pushItem(data);
+
+//   // player_properties.setData({
+//   //   // headers: ["Name", "Price", "Mortgaged"],
+//   //   data: data,
+//   // });
+
+//   screen.render();
+// });
+
+var property_mgmt = grid.set(8, 3, 4, 4, blessed.list, {
   style: {
     focus: {
       border: {
@@ -79,123 +166,54 @@ var player_explorer = grid.set(0, 0, 1, 3, blessed.list, {
       },
     },
   },
+  keys: true,
+  mouse: true,
+  fg: "white",
+  selectedFg: "white",
+  selectedBg: "blue",
+  interactive: true,
+  label: `${chalk.bold.bgYellowBright("Property Mgmt.")}`,
+  border: { type: "line", fg: "cyan" },
+  columnSpacing: 10, //in chars
+  columnWidth: [16, 12, 12] /*in chars*/,
+});
 
-  selectedBg: "cyan",
-  template: { lines: true },
-  label: `${chalk.bold.greenBright("Player Explorer")}`,
-  padding: 0,
+var board_details = grid.set(8, 7, 4, 5, blessed.list, {
+  style: {
+    focus: {
+      border: {
+        fg: "blue",
+      },
+    },
+  },
+  keys: true,
+  mouse: true,
+  fg: "white",
+  selectedFg: "white",
+  selectedBg: "blue",
+  interactive: true,
+  label: `${chalk.bold.bgYellowBright("Board Details")}`,
+  border: { type: "line", fg: "cyan" },
+  columnSpacing: 10, //in chars
+  columnWidth: [16, 12, 12] /*in chars*/,
+});
+
+var player_bar = grid.set(0, 0, 1, 6, blessed.listbar, {
   interactive: true,
   mouse: true,
   keys: true,
-  items: Players.map(player => player.name),
-});
-
-var player_properties = grid.set(1, 0, 1, 3, contrib.table, {
-  focus: {
-    border: {
-      fg: "blue",
+  style: {
+    focus: {
+      border: {
+        fg: "blue",
+      },
     },
   },
-  keys: true,
-  fg: "white",
-  selectedFg: "white",
-  selectedBg: "black",
-  interactive: true,
-  label: `${chalk.bold.greenBright("Properties")}`,
-  width: "30%",
-  height: "30%",
-  border: { type: "line", fg: "cyan" },
-  columnSpacing: 4, //in chars
-  columnWidth: [16, 5, 5] /*in chars*/,
+  label: `${chalk.bold.greenBright("Players")}`,
+  items: ["Chris", "Calista", "Michael", "Megan"],
 });
 
-var current_space_details = grid.set(2, 0, 1, 3, contrib.table, {
-  focus: {
-    border: {
-      fg: "blue",
-    },
-  },
-
-  keys: true,
-  fg: "white",
-  selectedFg: "white",
-  selectedBg: "black",
-  interactive: true,
-  label: `${chalk.bold.yellowBright("Current Space")}`,
-  width: "30%",
-  height: "30%",
-  border: { type: "line", fg: "cyan" },
-  columnSpacing: 4, //in chars
-  columnWidth: [16, 5, 5] /*in chars*/,
-});
-
-// THIS WILL NEED TO CHANGE TO ACCOMODATE PLAYER TYPE
-player_explorer.on("select", function (node: any) {
-  const playerName = node.content;
-  const playerProperties: [] = player_properties_details[playerName].properties;
-
-  // console.log(playerProperties[0].name);
-
-  // let properties = node.properties;
-  var data: any[] = [];
-
-  for (let i = 0; i < playerProperties.length; i++) {
-    data.push([
-      playerProperties[i].name,
-      playerProperties[i].price,
-      playerProperties[i].mortgaged,
-    ]);
-  }
-
-  player_properties.setData({
-    headers: ["Name", "Price", "Mortgaged"],
-    data: data,
-  });
-
-  screen.render();
-});
-
-var trade = grid.set(3, 0, 1, 3, contrib.table, {
-  focus: {
-    border: {
-      fg: "blue",
-    },
-  },
-
-  keys: true,
-  fg: "white",
-  selectedFg: "white",
-  selectedBg: "blue",
-  interactive: true,
-  label: `${chalk.bold.yellowBright("Trade")}`,
-  width: "30%",
-  height: "30%",
-  border: { type: "line", fg: "cyan" },
-  columnSpacing: 10, //in chars
-  columnWidth: [16, 12, 12] /*in chars*/,
-});
-
-var buy_sell_houses = grid.set(3, 3, 1, 3, contrib.table, {
-  focus: {
-    border: {
-      fg: "blue",
-    },
-  },
-
-  keys: true,
-  fg: "white",
-  selectedFg: "white",
-  selectedBg: "blue",
-  interactive: true,
-  label: "Buy/Sell Houses",
-  width: "30%",
-  height: "30%",
-  border: { type: "line", fg: "cyan" },
-  columnSpacing: 10, //in chars
-  columnWidth: [16, 12, 12] /*in chars*/,
-});
-
-var turn_prompts = grid.set(3, 6, 1, 3, contrib.table, {
+var player_details = grid.set(1, 0, 4, 3, blessed.list, {
   style: {
     focus: {
       border: {
@@ -208,7 +226,8 @@ var turn_prompts = grid.set(3, 6, 1, 3, contrib.table, {
   selectedFg: "white",
   selectedBg: "blue",
   interactive: true,
-  label: "Turn Prompts",
+  mouse: true,
+  label: `${chalk.bold.greenBright("Assets")}`,
   width: "30%",
   height: "30%",
   border: { type: "line", fg: "cyan" },
@@ -216,7 +235,7 @@ var turn_prompts = grid.set(3, 6, 1, 3, contrib.table, {
   columnWidth: [16, 12, 12] /*in chars*/,
 });
 
-var chat_box = grid.set(1, 9, 3, 3, contrib.table, {
+var trade = grid.set(1, 3, 4, 3, blessed.list, {
   style: {
     focus: {
       border: {
@@ -225,19 +244,40 @@ var chat_box = grid.set(1, 9, 3, 3, contrib.table, {
     },
   },
   keys: true,
+  fg: "white",
+  selectedFg: "white",
+  selectedBg: "blue",
+  interactive: true,
+  mouse: true,
+  label: `${chalk.bold.greenBright("Details")}`,
+  width: "30%",
+  height: "30%",
+  border: { type: "line", fg: "cyan" },
+  // columnSpacing: 10, //in chars
+  // columnWidth: [16, 12, 12] /*in chars*/,
+});
+
+var chat_box = grid.set(5, 0, 6, 3, blessed.log, {
+  style: {
+    focus: {
+      border: {
+        fg: "blue",
+      },
+    },
+  },
+  keys: true,
+  mouse: true,
   fg: "white",
   selectedFg: "white",
   selectedBg: "blue",
   interactive: true,
   label: "Chat",
-  width: "30%",
-  height: "30%",
   border: { type: "line", fg: "cyan" },
   columnSpacing: 10, //in chars
   columnWidth: [16, 12, 12] /*in chars*/,
 });
 
-var log = grid.set(0, 9, 1, 3, blessed.log, {
+var chat_input = grid.set(11, 0, 1, 3, blessed.input, {
   style: {
     focus: {
       border: {
@@ -245,13 +285,32 @@ var log = grid.set(0, 9, 1, 3, blessed.log, {
       },
     },
   },
+  interactive: true,
+  mouse: true,
+  keys: true,
+});
 
+var turn_history = grid.set(5, 3, 3, 3, blessed.log, {
+  style: {
+    focus: {
+      border: {
+        fg: "blue",
+      },
+    },
+  },
+  mouse: true,
+  interactive: true,
+  keys: true,
   fg: "green",
   selectedFg: "green",
   label: "Turn History",
+  scroll: {
+    fg: "blue",
+    bg: "cyan",
+  },
 });
 
-var map = grid.set(0, 3, 3, 6, contrib.map, {
+var board_view = grid.set(0, 8, 8, 4, blessed.scrollabletext, {
   label: "Board",
   style: {
     focus: {
@@ -260,6 +319,40 @@ var map = grid.set(0, 3, 3, 6, contrib.map, {
       },
     },
   },
+  content: `
+
+        [1]${chalk.bgRedBright.bold(" ▢ ")}[🤞]${chalk.bgRedBright.bold(
+    " ▢ "
+  )}${chalk.bold.bgRedBright(" ▢ ")}[🚂]${chalk.bgYellowBright.bold(
+    " ▢ "
+  )}${chalk.bgYellowBright.bold(" ▢ ")}[🚰]${chalk.bgYellowBright.bold(
+    " ▢ "
+  )}[🚔] 
+        ${chalk.bgYellow.bold(
+          " ▢ "
+        )}                           ${chalk.bgGreenBright.bold(" ▢ ")} 
+        ${chalk.bgYellow.bold(
+          " ▢ "
+        )}                           ${chalk.bgGreenBright.bold(" ▢ ")} 
+        [2]                           [3] 
+        ${chalk.bgYellow.bold(
+          " ▢ "
+        )}                           ${chalk.bgGreenBright.bold(" ▢ ")}   
+        [3]      CLI-Opoly Board      [1] 
+        ${chalk.bgMagenta.bold(" ▢ ")}                           [2] 
+        ${chalk.bgMagenta.bold(
+          " ▢ "
+        )}                           ${chalk.bgBlueBright.bold(" ▢ ")} 
+        [4]                           [🏦] 
+        ${chalk.bgMagenta.bold(
+          " ▢ "
+        )}                           ${chalk.bgBlueBright.bold(" ▢ ")} 
+        [5]${chalk.bgCyanBright.bold(" ▢ ")}${chalk.bgCyanBright.bold(
+    " ▢ "
+  )}[🤞]${chalk.bgCyanBright.bold(" ▢ ")}[🚂][🏛️]${chalk.bgRed.bold(
+    " ▢ "
+  )}[💰]${chalk.bgRed.bold(" ▢ ")}[🏁] 
+`,
 });
 
 screen.key(["escape", "q", "C-c"], function () {
@@ -267,17 +360,16 @@ screen.key(["escape", "q", "C-c"], function () {
 });
 
 screen.key(["tab"], function () {
+  // console.log(screen.focused);
   screen.focusNext();
-  // focusedDraw();
   screen.render();
 });
 
-player_explorer.focus();
-// focusedDraw();
+player_bar.focus();
 screen.render();
 
 export function logTurn(message: string) {
-  log.log(message);
+  turn_history.log(message);
 }
 
 // Determine who goes first
