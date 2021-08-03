@@ -9,6 +9,8 @@ var emoji = require("node-emoji");
 import chalk = require("chalk");
 import { triggerAsyncId } from "async_hooks";
 
+import { board as MONOPOLY_BOARD } from "./monopoly";
+
 var [redSquare, blueSquare] = [
   emoji.get("red-square"),
   emoji.get("blueSquare"),
@@ -75,89 +77,6 @@ const player_properties_object: object = {
   },
 };
 
-// var player_explorer = grid.set(0, 0, 2, 3, blessed.list, {
-//   style: {
-//     focus: {
-//       border: {
-//         fg: "blue",
-//       },
-//     },
-//   },
-//   selectedBg: "cyan",
-//   template: { lines: true },
-//   label: `${chalk.bold.greenBright("Player Explorer")}`,
-//   padding: 0,
-//   interactive: true,
-//   mouse: true,
-//   keys: true,
-//   items: Players.map(player => player.name),
-// });
-
-// var player_properties = grid.set(2, 0, 2, 3, blessed.list, {
-//   interactive: true,
-//   mouse: true,
-//   keys: true,
-//   style: {
-//     focus: {
-//       border: {
-//         fg: "blue",
-//       },
-//     },
-//   },
-//   label: `${chalk.bold.greenBright("Properties")}`,
-//   items: "",
-// });
-
-// var current_space_details = grid.set(4, 0, 3, 3, blessed.list, {
-//   interactive: true,
-//   mouse: true,
-//   keys: true,
-//   label: `${chalk.bold.bgYellowBright("Current Space")}`,
-//   columnSpacing: 4, //in chars
-//   columnWidth: [16, 5, 5] /*in chars*/,
-//   items: ["one", "two", "three"],
-//   style: {
-//     focus: {
-//       border: {
-//         fg: "blue",
-//       },
-//     },
-//   },
-// });
-
-// current_space_details.on("element focus", e => {
-//   e.parent.border.fg = "blue";
-// });
-
-// THIS WILL NEED TO CHANGE TO ACCOMODATE PLAYER TYPE
-// player_explorer.on("select", function (node: any) {
-//   const playerName: string = node.content;
-//   const playerProperties = player_properties_object[playerName].properties;
-
-//   // console.log(playerProperties[0].name);
-
-//   // let properties = node.properties;
-//   var data: string[] = [];
-
-//   for (let i = 0; i < playerProperties.length; i++) {
-//     data.push(
-//       playerProperties[i].name.toString(),
-//       playerProperties[i].price.toString(),
-//       playerProperties[i].mortgaged.toString()
-//     );
-//   }
-//   player_properties.setItem(data);
-
-//   // player_properties.items.pushItem(data);
-
-//   // player_properties.setData({
-//   //   // headers: ["Name", "Price", "Mortgaged"],
-//   //   data: data,
-//   // });
-
-//   screen.render();
-// });
-
 var property_mgmt = grid.set(8, 3, 4, 4, blessed.list, {
   style: {
     focus: {
@@ -172,7 +91,7 @@ var property_mgmt = grid.set(8, 3, 4, 4, blessed.list, {
   selectedFg: "white",
   selectedBg: "blue",
   interactive: true,
-  label: `${chalk.bold.bgYellowBright("Property Mgmt.")}`,
+  label: `${chalk.bold.yellowBright("Property Mgmt.")}`,
   border: { type: "line", fg: "cyan" },
   columnSpacing: 10, //in chars
   columnWidth: [16, 12, 12] /*in chars*/,
@@ -192,7 +111,7 @@ var board_details = grid.set(8, 7, 4, 5, blessed.list, {
   selectedFg: "white",
   selectedBg: "blue",
   interactive: true,
-  label: `${chalk.bold.bgYellowBright("Board Details")}`,
+  label: `${chalk.bold.yellowBright("Board Details")}`,
   border: { type: "line", fg: "cyan" },
   columnSpacing: 10, //in chars
   columnWidth: [16, 12, 12] /*in chars*/,
@@ -310,7 +229,49 @@ var turn_history = grid.set(5, 3, 3, 3, blessed.log, {
   },
 });
 
-var board_view = grid.set(0, 8, 8, 4, blessed.scrollabletext, {
+const b = MONOPOLY_BOARD;
+let row_a = [];
+let row_b = [];
+let row_c = () => {
+  let row;
+
+  return row;
+};
+let row_d = [];
+
+for (let i = 20; i < 31; i++) {
+  if (b[i].color) {
+    let ch = b[i].color;
+    let col = chalk.bgHex(ch);
+    let char = col.bold("0000");
+    row_a.push(char);
+    row_b.push(col.bold("    "));
+    // top_row.push(`${char}`);
+  }
+  if (b[i].type === "free-parking") {
+    row_a.push(chalk.bgWhiteBright.black("FREE"));
+    row_b.push(chalk.bgWhiteBright.black("PARK"));
+  }
+  if (b[i].type === "chance") {
+    row_a.push(chalk.bgWhiteBright.black("LUCK"));
+    row_b.push(chalk.bgWhiteBright.black("    "));
+  }
+  if (b[i].type === "railroad") {
+    row_a.push(chalk.bgWhiteBright.black("CHOO"));
+    row_b.push(chalk.bgWhiteBright.black("CHOO"));
+  }
+  if (b[i].type === "utility") {
+    row_a.push(chalk.bgWhiteBright.black("UTIL"));
+    row_b.push(chalk.bgWhiteBright.black("    "));
+  }
+  if (b[i].type === "go-to-jail") {
+    row_a.push(chalk.bgWhiteBright.black("GOTO"));
+    row_b.push(chalk.bgWhiteBright.black("JAIL"));
+  }
+}
+
+// prettier-ignore
+var board_view = grid.set(0, 6, 8, 6, blessed.scrollabletext, {
   label: "Board",
   style: {
     focus: {
@@ -320,39 +281,8 @@ var board_view = grid.set(0, 8, 8, 4, blessed.scrollabletext, {
     },
   },
   content: `
-
-        [1]${chalk.bgRedBright.bold(" ▢ ")}[🤞]${chalk.bgRedBright.bold(
-    " ▢ "
-  )}${chalk.bold.bgRedBright(" ▢ ")}[🚂]${chalk.bgYellowBright.bold(
-    " ▢ "
-  )}${chalk.bgYellowBright.bold(" ▢ ")}[🚰]${chalk.bgYellowBright.bold(
-    " ▢ "
-  )}[🚔] 
-        ${chalk.bgYellow.bold(
-          " ▢ "
-        )}                           ${chalk.bgGreenBright.bold(" ▢ ")} 
-        ${chalk.bgYellow.bold(
-          " ▢ "
-        )}                           ${chalk.bgGreenBright.bold(" ▢ ")} 
-        [2]                           [3] 
-        ${chalk.bgYellow.bold(
-          " ▢ "
-        )}                           ${chalk.bgGreenBright.bold(" ▢ ")}   
-        [3]      CLI-Opoly Board      [1] 
-        ${chalk.bgMagenta.bold(" ▢ ")}                           [2] 
-        ${chalk.bgMagenta.bold(
-          " ▢ "
-        )}                           ${chalk.bgBlueBright.bold(" ▢ ")} 
-        [4]                           [🏦] 
-        ${chalk.bgMagenta.bold(
-          " ▢ "
-        )}                           ${chalk.bgBlueBright.bold(" ▢ ")} 
-        [5]${chalk.bgCyanBright.bold(" ▢ ")}${chalk.bgCyanBright.bold(
-    " ▢ "
-  )}[🤞]${chalk.bgCyanBright.bold(" ▢ ")}[🚂][🏛️]${chalk.bgRed.bold(
-    " ▢ "
-  )}[💰]${chalk.bgRed.bold(" ▢ ")}[🏁] 
-`,
+    ${row_a.join('')}
+    ${row_b.join('')}`,
 });
 
 screen.key(["escape", "q", "C-c"], function () {
