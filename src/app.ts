@@ -2,20 +2,14 @@ import { Player } from "./player";
 import { BuildBoard } from "./game";
 const blessed = require("blessed");
 import contrib = require("blessed-contrib");
+import { Property } from "./spaces";
 import fs from "fs";
 import path from "path";
+const colors = require("colors/safe");
 import { whoGoesFirst, whosTurnIsIt, movePlayer } from "./game";
-var emoji = require("node-emoji");
-import chalk = require("chalk");
-import { triggerAsyncId } from "async_hooks";
-
-var [redSquare, blueSquare] = [
-  emoji.get("red-square"),
-  emoji.get("blueSquare"),
-];
 
 const Players: Player[] = [];
-const Board = BuildBoard();
+const Board: Property[] = BuildBoard();
 
 // console.log(Board);
 Players.push(new Player("Chris", false, 1500, [], 0));
@@ -75,89 +69,6 @@ const player_properties_object: object = {
   },
 };
 
-// var player_explorer = grid.set(0, 0, 2, 3, blessed.list, {
-//   style: {
-//     focus: {
-//       border: {
-//         fg: "blue",
-//       },
-//     },
-//   },
-//   selectedBg: "cyan",
-//   template: { lines: true },
-//   label: `${chalk.bold.greenBright("Player Explorer")}`,
-//   padding: 0,
-//   interactive: true,
-//   mouse: true,
-//   keys: true,
-//   items: Players.map(player => player.name),
-// });
-
-// var player_properties = grid.set(2, 0, 2, 3, blessed.list, {
-//   interactive: true,
-//   mouse: true,
-//   keys: true,
-//   style: {
-//     focus: {
-//       border: {
-//         fg: "blue",
-//       },
-//     },
-//   },
-//   label: `${chalk.bold.greenBright("Properties")}`,
-//   items: "",
-// });
-
-// var current_space_details = grid.set(4, 0, 3, 3, blessed.list, {
-//   interactive: true,
-//   mouse: true,
-//   keys: true,
-//   label: `${chalk.bold.bgYellowBright("Current Space")}`,
-//   columnSpacing: 4, //in chars
-//   columnWidth: [16, 5, 5] /*in chars*/,
-//   items: ["one", "two", "three"],
-//   style: {
-//     focus: {
-//       border: {
-//         fg: "blue",
-//       },
-//     },
-//   },
-// });
-
-// current_space_details.on("element focus", e => {
-//   e.parent.border.fg = "blue";
-// });
-
-// THIS WILL NEED TO CHANGE TO ACCOMODATE PLAYER TYPE
-// player_explorer.on("select", function (node: any) {
-//   const playerName: string = node.content;
-//   const playerProperties = player_properties_object[playerName].properties;
-
-//   // console.log(playerProperties[0].name);
-
-//   // let properties = node.properties;
-//   var data: string[] = [];
-
-//   for (let i = 0; i < playerProperties.length; i++) {
-//     data.push(
-//       playerProperties[i].name.toString(),
-//       playerProperties[i].price.toString(),
-//       playerProperties[i].mortgaged.toString()
-//     );
-//   }
-//   player_properties.setItem(data);
-
-//   // player_properties.items.pushItem(data);
-
-//   // player_properties.setData({
-//   //   // headers: ["Name", "Price", "Mortgaged"],
-//   //   data: data,
-//   // });
-
-//   screen.render();
-// });
-
 var property_mgmt = grid.set(8, 3, 4, 4, blessed.list, {
   style: {
     focus: {
@@ -172,7 +83,7 @@ var property_mgmt = grid.set(8, 3, 4, 4, blessed.list, {
   selectedFg: "white",
   selectedBg: "blue",
   interactive: true,
-  label: `${chalk.bold.bgYellowBright("Property Mgmt.")}`,
+  label: `${colors.bold("Property Mgmt.")}`,
   border: { type: "line", fg: "cyan" },
   columnSpacing: 10, //in chars
   columnWidth: [16, 12, 12] /*in chars*/,
@@ -192,7 +103,7 @@ var board_details = grid.set(8, 7, 4, 5, blessed.list, {
   selectedFg: "white",
   selectedBg: "blue",
   interactive: true,
-  label: `${chalk.bold.bgYellowBright("Board Details")}`,
+  label: `${colors.bold("Board Details")}`,
   border: { type: "line", fg: "cyan" },
   columnSpacing: 10, //in chars
   columnWidth: [16, 12, 12] /*in chars*/,
@@ -209,7 +120,7 @@ var player_bar = grid.set(0, 0, 1, 6, blessed.listbar, {
       },
     },
   },
-  label: `${chalk.bold.greenBright("Players")}`,
+  label: `${colors.bold("Players")}`,
   items: ["Chris", "Calista", "Michael", "Megan"],
 });
 
@@ -227,7 +138,7 @@ var player_details = grid.set(1, 0, 4, 3, blessed.list, {
   selectedBg: "blue",
   interactive: true,
   mouse: true,
-  label: `${chalk.bold.greenBright("Assets")}`,
+  label: `${colors.bold("Assets")}`,
   width: "30%",
   height: "30%",
   border: { type: "line", fg: "cyan" },
@@ -249,7 +160,7 @@ var trade = grid.set(1, 3, 4, 3, blessed.list, {
   selectedBg: "blue",
   interactive: true,
   mouse: true,
-  label: `${chalk.bold.greenBright("Details")}`,
+  label: `${colors.bold("Details")}`,
   width: "30%",
   height: "30%",
   border: { type: "line", fg: "cyan" },
@@ -271,7 +182,7 @@ var chat_box = grid.set(5, 0, 6, 3, blessed.log, {
   selectedFg: "white",
   selectedBg: "blue",
   interactive: true,
-  label: "Chat",
+  label: `${colors.bold("Chat")}`,
   border: { type: "line", fg: "cyan" },
   columnSpacing: 10, //in chars
   columnWidth: [16, 12, 12] /*in chars*/,
@@ -303,56 +214,325 @@ var turn_history = grid.set(5, 3, 3, 3, blessed.log, {
   keys: true,
   fg: "green",
   selectedFg: "green",
-  label: "Turn History",
+  label: `${colors.bold("Turn History")}`,
   scroll: {
     fg: "blue",
     bg: "cyan",
   },
 });
 
-var board_view = grid.set(0, 8, 8, 4, blessed.scrollabletext, {
-  label: "Board",
-  style: {
-    focus: {
-      border: {
-        fg: "blue",
-      },
-    },
-  },
-  content: `
+// prettier-ignore
+var board_view = grid.set(0, 6, 8, 6, contrib.table, {
+  keys: true,
+  fg: "white",
+  selectedFg: "white",
+  selectedBg: "blue",
+  interactive: false,
+  label: "Monopoly Board",
+  border: { type: "line", fg: "cyan" },
+  columnSpacing: 0,
+  columnWidth: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
+});
 
-        [1]${chalk.bgRedBright.bold(" ▢ ")}[🤞]${chalk.bgRedBright.bold(
-    " ▢ "
-  )}${chalk.bold.bgRedBright(" ▢ ")}[🚂]${chalk.bgYellowBright.bold(
-    " ▢ "
-  )}${chalk.bgYellowBright.bold(" ▢ ")}[🚰]${chalk.bgYellowBright.bold(
-    " ▢ "
-  )}[🚔] 
-        ${chalk.bgYellow.bold(
-          " ▢ "
-        )}                           ${chalk.bgGreenBright.bold(" ▢ ")} 
-        ${chalk.bgYellow.bold(
-          " ▢ "
-        )}                           ${chalk.bgGreenBright.bold(" ▢ ")} 
-        [2]                           [3] 
-        ${chalk.bgYellow.bold(
-          " ▢ "
-        )}                           ${chalk.bgGreenBright.bold(" ▢ ")}   
-        [3]      CLI-Opoly Board      [1] 
-        ${chalk.bgMagenta.bold(" ▢ ")}                           [2] 
-        ${chalk.bgMagenta.bold(
-          " ▢ "
-        )}                           ${chalk.bgBlueBright.bold(" ▢ ")} 
-        [4]                           [🏦] 
-        ${chalk.bgMagenta.bold(
-          " ▢ "
-        )}                           ${chalk.bgBlueBright.bold(" ▢ ")} 
-        [5]${chalk.bgCyanBright.bold(" ▢ ")}${chalk.bgCyanBright.bold(
-    " ▢ "
-  )}[🤞]${chalk.bgCyanBright.bold(" ▢ ")}[🚂][🏛️]${chalk.bgRed.bold(
-    " ▢ "
-  )}[💰]${chalk.bgRed.bold(" ▢ ")}[🏁] 
-`,
+board_view.setData({
+  headers: [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+  data: [
+    [
+      colors.bgWhite.black("FREE"),
+      colors.bgRed.black("⌂⌂⌂⌂"),
+      colors.bgWhite.black("LUCK"),
+      colors.bgRed.black("⌂⌂⌂⌂"),
+      colors.bgRed.black("⌂⌂⌂⌂"),
+      colors.bgWhite.black("CHOO"),
+      colors.bgBrightYellow.black("⌂⌂⌂⌂"),
+      colors.bgBrightYellow.black("⌂⌂⌂⌂"),
+      colors.bgWhite.black("UTIL"),
+      colors.bgBrightYellow.black("⌂⌂⌂⌂"),
+      colors.bgWhite.black("GOTO"),
+    ],
+    [
+      colors.bgWhite.black("PARK"),
+      colors.bgRed.black("    "),
+      colors.bgWhite.black("    "),
+      colors.bgRed.black("    "),
+      colors.bgRed.black("    "),
+      colors.bgWhite.black("CHOO"),
+      colors.bgBrightYellow.black("    "),
+      colors.bgBrightYellow.black("    "),
+      colors.bgWhite.black("    "),
+      colors.bgBrightYellow.black("    "),
+      colors.bgWhite.black("JAIL"),
+    ],
+    // ROW 2
+    [
+      colors.bgYellow.black("⌂⌂⌂⌂"),
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      colors.bgGreen.black("⌂⌂⌂⌂"),
+    ],
+    [
+      colors.bgYellow.black("    "),
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      colors.bgGreen.black("    "),
+    ],
+    // ROW 3
+    [
+      colors.bgYellow.black("⌂⌂⌂⌂"),
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      colors.bgGreen.black("⌂⌂⌂⌂"),
+    ],
+    [
+      colors.bgYellow.black("    "),
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      colors.bgGreen.black("    "),
+    ],
+    // ROW 4
+    [
+      colors.bgWhite.black("COMM"),
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      colors.bgWhite.black("COMM"),
+    ],
+    [
+      colors.bgWhite.black("    "),
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      colors.bgWhite.black("    "),
+    ],
+    // ROW 5
+    [
+      colors.bgYellow.black("⌂⌂⌂⌂"),
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      colors.bgGreen.black("⌂⌂⌂⌂"),
+    ],
+    [
+      colors.bgYellow.black("    "),
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      colors.bgGreen.black("    "),
+    ],
+    // ROW 6
+    [
+      colors.bgWhite.black("CHOO"),
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      colors.bgWhite.black("CHOO"),
+    ],
+    [
+      colors.bgWhite.black("CHOO"),
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      colors.bgWhite.black("CHOO"),
+    ],
+    // ROW 7
+    [
+      colors.bgBrightMagenta.black("⌂⌂⌂⌂"),
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      colors.bgBrightWhite.black("LUCK"),
+    ],
+    [
+      colors.bgBrightMagenta.black("    "),
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      colors.bgBrightWhite.black("    "),
+    ],
+    // ROW 8
+    [
+      colors.bgBrightMagenta.black("⌂⌂⌂⌂"),
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      colors.bgBlue.black("⌂⌂⌂⌂"),
+    ],
+    [
+      colors.bgBrightMagenta.black("    "),
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      colors.bgBlue.black("    "),
+    ],
+    // ROW 9
+    [
+      colors.bgWhite.black("UTIL"),
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      colors.bgWhite.black("WLTH"),
+    ],
+    [
+      colors.bgWhite.black("    "),
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      colors.bgWhite.black(" TAX"),
+    ],
+    // ROW 10
+    [
+      colors.bgBrightMagenta.black("⌂⌂⌂⌂"),
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      colors.bgBlue.black("⌂⌂⌂⌂"),
+    ],
+    [
+      colors.bgBrightMagenta.black("    "),
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      "    ",
+      colors.bgBlue.black("    "),
+    ],
+    [
+      colors.bgWhite.black("JAIL"),
+      colors.bgCyan.black("⌂⌂⌂⌂"),
+      colors.bgCyan.black("⌂⌂⌂⌂"),
+      colors.bgBrightWhite.black("LUCK"),
+      colors.bgCyan.black("⌂⌂⌂⌂"),
+      colors.bgWhite.black("CHOO"),
+      colors.bgWhite.black("LXRY"),
+      colors.bgMagenta.black("⌂⌂⌂⌂"),
+      colors.bgWhite.black("UTIL"),
+      colors.bgMagenta.black("⌂⌂⌂⌂"),
+      colors.bgWhite.black(" GO "),
+    ],
+    [
+      colors.bgWhite.black("JAIL"),
+      colors.bgCyan.black("    "),
+      colors.bgCyan.black("    "),
+      colors.bgBrightWhite.black("    "),
+      colors.bgCyan.black("    "),
+      colors.bgWhite.black("CHOO"),
+      colors.bgWhite.black(" TAX"),
+      colors.bgMagenta.black("    "),
+      colors.bgWhite.black("    "),
+      colors.bgMagenta.black("    "),
+      colors.bgWhite.black(" GO "),
+    ],
+  ],
 });
 
 screen.key(["escape", "q", "C-c"], function () {

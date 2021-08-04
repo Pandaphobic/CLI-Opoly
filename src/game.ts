@@ -3,17 +3,6 @@ import { Player } from "./player";
 import { logTurn } from "./app";
 
 class Board {
-  /* The Board Object shall be treated as the Game State
-  
-  Keep track of and modify the following:
-  - players position
-  - board spaces
-      - symbol
-      - color
-      - layout
-  - turn
-  */
-
   // Spaces
   properties: Property[];
   players: Player[];
