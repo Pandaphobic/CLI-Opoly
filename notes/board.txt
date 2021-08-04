@@ -1,4 +1,4 @@
-[                 LEGEND                   ]
+[                 LEGEND                    ]
 🏁 - Go Space             🆓 - Free Parking
 💰 - Community Chest      🟦 - Blue Property
 🚂 - Railroad             🟩 - Green Property
@@ -23,3 +23,12 @@
 [🏦][⬜][⬜][🤞][⬜][🚂][🏛️][🟫][💰][🟫][🏁] 
 
 */
+
+TODOs:
+- look into and format monopoly.ts
+      + ownership functions
+      + rent setters + getters
+- revisit player objects
+      + define setters + getters
+      + simple assets
+        + collateral

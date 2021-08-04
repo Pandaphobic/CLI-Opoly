@@ -9,7 +9,7 @@ var emoji = require("node-emoji");
 import chalk = require("chalk");
 import { triggerAsyncId } from "async_hooks";
 
-import { board as MONOPOLY_BOARD } from "./monopoly";
+import { board as MONOPOLY_BOARD } from "./boards/original";
 
 var [redSquare, blueSquare] = [
   emoji.get("red-square"),
@@ -229,44 +229,36 @@ var turn_history = grid.set(5, 3, 3, 3, blessed.log, {
   },
 });
 
-const b = MONOPOLY_BOARD;
-let row_a = [];
-let row_b = [];
-let row_c = () => {
-  let row;
+function parseBoard(MONOPOLY_BOARD) {
+  const b = MONOPOLY_BOARD;
+  let bg = "";
+  let fg = "";
 
-  return row;
-};
-let row_d = [];
-
-for (let i = 20; i < 31; i++) {
-  if (b[i].color) {
-    let ch = b[i].color;
-    let col = chalk.bgHex(ch:string);
-    let char = col.bold("0000");
-    row_a.push(char);
-    row_b.push(col.bold("    "));
-    // top_row.push(`${char}`);
-  }
-  if (b[i].type === "free-parking") {
-    row_a.push(chalk.bgWhiteBright.black("FREE"));
-    row_b.push(chalk.bgWhiteBright.black("PARK"));
-  }
-  if (b[i].type === "chance") {
-    row_a.push(chalk.bgWhiteBright.black("LUCK"));
-    row_b.push(chalk.bgWhiteBright.black("    "));
-  }
-  if (b[i].type === "railroad") {
-    row_a.push(chalk.bgWhiteBright.black("CHOO"));
-    row_b.push(chalk.bgWhiteBright.black("CHOO"));
-  }
-  if (b[i].type === "utility") {
-    row_a.push(chalk.bgWhiteBright.black("UTIL"));
-    row_b.push(chalk.bgWhiteBright.black("    "));
-  }
-  if (b[i].type === "go-to-jail") {
-    row_a.push(chalk.bgWhiteBright.black("GOTO"));
-    row_b.push(chalk.bgWhiteBright.black("JAIL"));
+  for (let i = 20; i < 31; i++) {
+    bg = b[i].bg_color;
+    fg = b[i].fg_color;
+    if (b[i].type === "property") {
+    }
+    if (b[i].type === "free-parking") {
+      //row_a.push(chalk.bgWhiteBright.black("FREE"));
+      //row_b.push(chalk.bgWhiteBright.black("PARK"));
+    }
+    if (b[i].type === "chance") {
+      //row_a.push(chalk.bgWhiteBright.black("LUCK"));
+      //row_b.push(chalk.bgWhiteBright.black("    "));
+    }
+    if (b[i].type === "railroad") {
+      //row_a.push(chalk.bgWhiteBright.black("CHOO"));
+      //row_b.push(chalk.bgWhiteBright.black("CHOO"));
+    }
+    if (b[i].type === "utility") {
+      //row_a.push(chalk.bgWhiteBright.black("UTIL"));
+      //row_b.push(chalk.bgWhiteBright.black("    "));
+    }
+    if (b[i].type === "go-to-jail") {
+      //row_a.push(chalk.bgWhiteBright.black("GOTO"));
+      //row_b.push(chalk.bgWhiteBright.black("JAIL"));
+    }
   }
 }
 
@@ -280,9 +272,9 @@ var board_view = grid.set(0, 6, 8, 6, blessed.scrollabletext, {
       },
     },
   },
-  content: `
-    ${row_a.join('')}
-    ${row_b.join('')}`,
+  // content: `
+  //   ${row_a.join('')}
+  //   ${row_b.join('')}`,
 });
 
 screen.key(["escape", "q", "C-c"], function () {

@@ -29,4 +29,20 @@ export class Player {
     console.log(`${this.name} rolled: ${diceValue}`)
     return diceValue;
   }
+
+  getName(){
+    return this.name
+  }
+
+  addProperty(property_to_add: Property){
+    this.owned_properties.push(property_to_add)
+  }
+
+  // removeProperty(property_to_remove: Property){
+  //   let newPropArray = this.owned_properties.filter([property_to_remove.name])
+  //   owned_properties = newPropArray;
+  // }
+  
+
+
 }
