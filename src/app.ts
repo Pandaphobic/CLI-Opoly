@@ -3,10 +3,10 @@ import { BuildBoard } from "./game";
 const blessed = require("blessed");
 import contrib = require("blessed-contrib");
 import { Property } from "./spaces";
+import { whoGoesFirst, whosTurnIsIt, movePlayer } from "./game";
 import fs from "fs";
 import path from "path";
 const colors = require("colors/safe");
-import { whoGoesFirst, whosTurnIsIt, movePlayer } from "./game";
 
 const Players: Player[] = [];
 const Board: Property[] = BuildBoard();
@@ -22,52 +22,6 @@ screen.title = "CLI-Opoly - A CLI Take on the Classic Game!";
 
 // INSTANTIATE GRID LAYOUT
 var grid = new contrib.grid({ rows: 12, cols: 12, screen: screen });
-
-// THIS SHOULD BE REPLACED WITH PLAYER OBJECT
-const player_properties_object: object = {
-  Chris: {
-    properties: [
-      { name: "Baltic", price: 500, mortgaged: "yes" },
-      { name: "Boardwalk", price: 1000, mortgaged: "yes" },
-      { name: "Cherry Ave", price: 250, mortgaged: "no" },
-    ],
-  },
-  Calista: {
-    properties: [
-      { name: "Sommerset", price: 150, mortgaged: "no" },
-      { name: "Chincy", price: 500, mortgaged: "no" },
-      { name: "Varro", price: 200, mortgaged: "no" },
-      { name: "Zulex", price: 50, mortgaged: "no" },
-      { name: "Varro", price: 200, mortgaged: "yes" },
-      { name: "Campala", price: 50, mortgaged: "no" },
-      { name: "Getzchen", price: 200, mortgaged: "yes" },
-      { name: "Fourth Manor", price: 50, mortgaged: "no" },
-    ],
-  },
-  Megan: {
-    properties: [
-      { name: "Canto", price: 150, mortgaged: "yes" },
-      { name: "Marvintyne", price: 500, mortgaged: "yes" },
-      { name: "Esto Besto", price: 200, mortgaged: "no" },
-      { name: "The Shore", price: 50, mortgaged: "no" },
-      { name: "Antabanto", price: 200, mortgaged: "yes" },
-      { name: "Solef", price: 50, mortgaged: "no" },
-      { name: "Carjuste", price: 200, mortgaged: "no" },
-    ],
-  },
-  Michael: {
-    properties: [
-      { name: "Chadsworth", price: 150, mortgaged: "yes" },
-      { name: "Douchington", price: 500, mortgaged: "no" },
-      { name: "Mesaclynn", price: 200, mortgaged: "no" },
-      { name: "MlonEusk", price: 50, mortgaged: "no" },
-      { name: "Bud Fight", price: 200, mortgaged: "no" },
-      { name: "Titsdale", price: 50, mortgaged: "no" },
-      { name: "Soda Valley", price: 200, mortgaged: "no" },
-      { name: "Bronx", price: 50, mortgaged: "no" },
-    ],
-  },
-};
 
 var property_mgmt = grid.set(8, 3, 4, 4, blessed.list, {
   style: {
@@ -119,7 +73,12 @@ var player_bar = grid.set(0, 0, 1, 6, blessed.listbar, {
         fg: "blue",
       },
     },
+    selected: {
+      fg: "yellow",
+      bold: true,
+    },
   },
+
   label: `${colors.bold("Players")}`,
   items: ["Chris", "Calista", "Michael", "Megan"],
 });
@@ -145,6 +104,8 @@ var player_details = grid.set(1, 0, 4, 3, blessed.list, {
   columnSpacing: 10, //in chars
   columnWidth: [16, 12, 12] /*in chars*/,
 });
+
+player_details.setData;
 
 var trade = grid.set(1, 3, 4, 3, blessed.list, {
   style: {
@@ -188,7 +149,7 @@ var chat_box = grid.set(5, 0, 6, 3, blessed.log, {
   columnWidth: [16, 12, 12] /*in chars*/,
 });
 
-var chat_input = grid.set(11, 0, 1, 3, blessed.input, {
+var chat_input = grid.set(11, 0, 1, 3, blessed.textbox, {
   style: {
     focus: {
       border: {
@@ -228,9 +189,10 @@ var board_view = grid.set(0, 6, 8, 6, contrib.table, {
   selectedFg: "white",
   selectedBg: "blue",
   interactive: false,
+  pad: 1,
   label: "Monopoly Board",
   border: { type: "line", fg: "cyan" },
-  columnSpacing: 0,
+  columnSpacing: 1,
   columnWidth: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
 });
 
@@ -240,10 +202,10 @@ board_view.setData({
     [
       colors.bgWhite.black("FREE"),
       colors.bgRed.black("⌂⌂⌂⌂"),
-      colors.bgWhite.black("LUCK"),
+      colors.bgBrightWhite.black("LUCK"),
       colors.bgRed.black("⌂⌂⌂⌂"),
       colors.bgRed.black("⌂⌂⌂⌂"),
-      colors.bgWhite.black("CHOO"),
+      colors.bgBlack.white("CHOO"),
       colors.bgBrightYellow.black("⌂⌂⌂⌂"),
       colors.bgBrightYellow.black("⌂⌂⌂⌂"),
       colors.bgWhite.black("UTIL"),
@@ -253,10 +215,10 @@ board_view.setData({
     [
       colors.bgWhite.black("PARK"),
       colors.bgRed.black("    "),
-      colors.bgWhite.black("    "),
+      colors.bgBrightWhite.black("    "),
       colors.bgRed.black("    "),
       colors.bgRed.black("    "),
-      colors.bgWhite.black("CHOO"),
+      colors.bgBlack.white("CHOO"),
       colors.bgBrightYellow.black("    "),
       colors.bgBrightYellow.black("    "),
       colors.bgWhite.black("    "),
@@ -373,7 +335,7 @@ board_view.setData({
     ],
     // ROW 6
     [
-      colors.bgWhite.black("CHOO"),
+      colors.bgBlack.white("CHOO"),
       "    ",
       "    ",
       "    ",
@@ -383,10 +345,10 @@ board_view.setData({
       "    ",
       "    ",
       "    ",
-      colors.bgWhite.black("CHOO"),
+      colors.bgBlack.white("CHOO"),
     ],
     [
-      colors.bgWhite.black("CHOO"),
+      colors.bgBlack.white("CHOO"),
       "    ",
       "    ",
       "    ",
@@ -396,7 +358,7 @@ board_view.setData({
       "    ",
       "    ",
       "    ",
-      colors.bgWhite.black("CHOO"),
+      colors.bgBlack.white("CHOO"),
     ],
     // ROW 7
     [
@@ -512,7 +474,7 @@ board_view.setData({
       colors.bgCyan.black("⌂⌂⌂⌂"),
       colors.bgBrightWhite.black("LUCK"),
       colors.bgCyan.black("⌂⌂⌂⌂"),
-      colors.bgWhite.black("CHOO"),
+      colors.bgBlack.white("CHOO"),
       colors.bgWhite.black("LXRY"),
       colors.bgMagenta.black("⌂⌂⌂⌂"),
       colors.bgWhite.black("UTIL"),
@@ -525,7 +487,7 @@ board_view.setData({
       colors.bgCyan.black("    "),
       colors.bgBrightWhite.black("    "),
       colors.bgCyan.black("    "),
-      colors.bgWhite.black("CHOO"),
+      colors.bgBlack.white("CHOO"),
       colors.bgWhite.black(" TAX"),
       colors.bgMagenta.black("    "),
       colors.bgWhite.black("    "),

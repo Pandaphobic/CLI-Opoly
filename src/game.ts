@@ -59,7 +59,7 @@ export const whoGoesFirst = (Players: Player[]) => {
 
   // It is now the winners turn
   Players[winnerIndex].turn = true;
-  logTurn(`${winner.name} won the highest roll with ${highRoll}`);
+  logTurn(`${winner.name} rolled the highest: ${highRoll}`);
 };
 
 export const whosTurnIsIt = (Players: Player[]) => {
