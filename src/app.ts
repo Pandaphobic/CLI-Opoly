@@ -2,23 +2,14 @@ import { Player } from "./player";
 import { BuildBoard } from "./game";
 const blessed = require("blessed");
 import contrib = require("blessed-contrib");
+import { Property } from "./spaces";
 import fs from "fs";
 import path from "path";
 const colors = require("colors/safe");
 import { whoGoesFirst, whosTurnIsIt, movePlayer } from "./game";
-var emoji = require("node-emoji");
-import chalk = require("chalk");
-import { triggerAsyncId } from "async_hooks";
-
-import { board as MONOPOLY_BOARD } from "./boards/original";
-
-var [redSquare, blueSquare] = [
-  emoji.get("red-square"),
-  emoji.get("blueSquare"),
-];
 
 const Players: Player[] = [];
-const Board = BuildBoard();
+const Board: Property[] = BuildBoard();
 
 // console.log(Board);
 Players.push(new Player("Chris", false, 1500, [], 0));
@@ -92,7 +83,7 @@ var property_mgmt = grid.set(8, 3, 4, 4, blessed.list, {
   selectedFg: "white",
   selectedBg: "blue",
   interactive: true,
-  label: `${chalk.bold.yellowBright("Property Mgmt.")}`,
+  label: `${colors.bold("Property Mgmt.")}`,
   border: { type: "line", fg: "cyan" },
   columnSpacing: 10, //in chars
   columnWidth: [16, 12, 12] /*in chars*/,
@@ -112,7 +103,7 @@ var board_details = grid.set(8, 7, 4, 5, blessed.list, {
   selectedFg: "white",
   selectedBg: "blue",
   interactive: true,
-  label: `${chalk.bold.yellowBright("Board Details")}`,
+  label: `${colors.bold("Board Details")}`,
   border: { type: "line", fg: "cyan" },
   columnSpacing: 10, //in chars
   columnWidth: [16, 12, 12] /*in chars*/,
@@ -129,7 +120,7 @@ var player_bar = grid.set(0, 0, 1, 6, blessed.listbar, {
       },
     },
   },
-  label: `${chalk.bold.greenBright("Players")}`,
+  label: `${colors.bold("Players")}`,
   items: ["Chris", "Calista", "Michael", "Megan"],
 });
 
@@ -147,7 +138,7 @@ var player_details = grid.set(1, 0, 4, 3, blessed.list, {
   selectedBg: "blue",
   interactive: true,
   mouse: true,
-  label: `${chalk.bold.greenBright("Assets")}`,
+  label: `${colors.bold("Assets")}`,
   width: "30%",
   height: "30%",
   border: { type: "line", fg: "cyan" },
@@ -169,7 +160,7 @@ var trade = grid.set(1, 3, 4, 3, blessed.list, {
   selectedBg: "blue",
   interactive: true,
   mouse: true,
-  label: `${chalk.bold.greenBright("Details")}`,
+  label: `${colors.bold("Details")}`,
   width: "30%",
   height: "30%",
   border: { type: "line", fg: "cyan" },
@@ -191,7 +182,7 @@ var chat_box = grid.set(5, 0, 6, 3, blessed.log, {
   selectedFg: "white",
   selectedBg: "blue",
   interactive: true,
-  label: "Chat",
+  label: `${colors.bold("Chat")}`,
   border: { type: "line", fg: "cyan" },
   columnSpacing: 10, //in chars
   columnWidth: [16, 12, 12] /*in chars*/,
@@ -223,45 +214,12 @@ var turn_history = grid.set(5, 3, 3, 3, blessed.log, {
   keys: true,
   fg: "green",
   selectedFg: "green",
-  label: "Turn History",
+  label: `${colors.bold("Turn History")}`,
   scroll: {
     fg: "blue",
     bg: "cyan",
   },
 });
-
-function parseBoard(MONOPOLY_BOARD) {
-  const b = MONOPOLY_BOARD;
-  let bg = "";
-  let fg = "";
-
-  for (let i = 20; i < 31; i++) {
-    bg = b[i].bg_color;
-    fg = b[i].fg_color;
-    if (b[i].type === "property") {
-    }
-    if (b[i].type === "free-parking") {
-      //row_a.push(chalk.bgWhiteBright.black("FREE"));
-      //row_b.push(chalk.bgWhiteBright.black("PARK"));
-    }
-    if (b[i].type === "chance") {
-      //row_a.push(chalk.bgWhiteBright.black("LUCK"));
-      //row_b.push(chalk.bgWhiteBright.black("    "));
-    }
-    if (b[i].type === "railroad") {
-      //row_a.push(chalk.bgWhiteBright.black("CHOO"));
-      //row_b.push(chalk.bgWhiteBright.black("CHOO"));
-    }
-    if (b[i].type === "utility") {
-      //row_a.push(chalk.bgWhiteBright.black("UTIL"));
-      //row_b.push(chalk.bgWhiteBright.black("    "));
-    }
-    if (b[i].type === "go-to-jail") {
-      //row_a.push(chalk.bgWhiteBright.black("GOTO"));
-      //row_b.push(chalk.bgWhiteBright.black("JAIL"));
-    }
-  }
-}
 
 // prettier-ignore
 var board_view = grid.set(0, 6, 8, 6, contrib.table, {
@@ -275,6 +233,7 @@ var board_view = grid.set(0, 6, 8, 6, contrib.table, {
   columnSpacing: 0,
   columnWidth: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
 });
+
 board_view.setData({
   headers: [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
   data: [
