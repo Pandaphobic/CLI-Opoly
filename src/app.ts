@@ -242,7 +242,7 @@ let row_d = [];
 for (let i = 20; i < 31; i++) {
   if (b[i].color) {
     let ch = b[i].color;
-    let col = chalk.bgHex(ch);
+    let col = chalk.bgHex(ch:string);
     let char = col.bold("0000");
     row_a.push(char);
     row_b.push(col.bold("    "));
