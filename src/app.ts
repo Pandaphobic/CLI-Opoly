@@ -1,15 +1,14 @@
 import { Player } from "./player";
-import { BuildBoard } from "./game";
+
 const blessed = require("blessed");
 import contrib = require("blessed-contrib");
 import { Property } from "./spaces";
-import { whoGoesFirst, whosTurnIsIt, movePlayer } from "./game";
+import { whoGoesFirst, whosTurnIsIt } from "./game"; // movePlayer
 import fs from "fs";
 import path from "path";
 const colors = require("colors/safe");
 
 const Players: Player[] = [];
-const Board: Property[] = BuildBoard();
 
 // console.log(Board);
 Players.push(new Player("Chris", false, 1500, [], 0));
@@ -515,8 +514,8 @@ export function logTurn(message: string) {
 }
 
 // Determine who goes first
-whoGoesFirst(Players);
-movePlayer(whosTurnIsIt(Players), Board, Players);
-movePlayer(whosTurnIsIt(Players), Board, Players);
-movePlayer(whosTurnIsIt(Players), Board, Players);
-movePlayer(whosTurnIsIt(Players), Board, Players);
+// whoGoesFirst(Players);
+// movePlayer(whosTurnIsIt(Players), Board, Players);
+// movePlayer(whosTurnIsIt(Players), Board, Players);
+// movePlayer(whosTurnIsIt(Players), Board, Players);
+// movePlayer(whosTurnIsIt(Players), Board, Players);
