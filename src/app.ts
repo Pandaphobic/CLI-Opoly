@@ -2,7 +2,7 @@ import { Player } from "./player";
 import { board } from "./game";
 const blessed = require("blessed");
 import contrib = require("blessed-contrib");
-import { Property } from "./spaces";
+import { Space } from "./spaces";
 import { whoGoesFirst, whosTurnIsIt } from "./game"; // movePlayer
 import fs from "fs";
 import path from "path";

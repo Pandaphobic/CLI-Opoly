@@ -3,120 +3,30 @@
 export class Space {
   name: string;
   type: string;
-
-  constructor(name: string, type: string) {
-    this.name = name;
-    this.type = type;
-  }
-}
-
-export class Property extends Space {
-  color: string; // What color to display on board
-  cost: number; // Price to purchase
-  rent: number[]; // Base rent price
-  group: number[]; // [group, index, total] ex. park place:[8, 1, 2]
-  house: number; // Pricer per house
+  cost?: number;
+  color?: string; // What color to display on board
+  rent?: number[]; // Base rent price
+  group?: number[]; // [group, index, total] ex. park place:[8, 1, 2]
+  house?: number; // Pricer per house
+  corner?: boolean; //
 
   constructor(
     name: string,
     type: string,
-    color: string,
-    cost: number,
-    rent: number[],
-    group: number[],
-    house: number
+    cost?: number,
+    color?: string,
+    rent?: number[],
+    group?: number[],
+    house?: number,
+    corner?: boolean
   ) {
-    super(name, type);
+    this.name = name;
+    this.type = type;
     this.cost = cost;
     this.color = color;
     this.rent = rent;
     this.group = group;
     this.house = house;
-  }
-}
-
-export class Go extends Space {
-  color: string; // What color to display on board
-  corner: true; // You guessed it
-
-  constructor(name: string, type: string, color: string, corner: true) {
-    super(name, type);
-    this.color = color;
     this.corner = corner;
-  }
-}
-
-export class Jail extends Space {
-  color: string; // What color to display on board
-  corner: true; // You guessed it
-
-  constructor(name: string, type: string, color: string, corner: true) {
-    super(name, type);
-    this.color = color;
-    this.corner = corner;
-  }
-}
-
-export class Free_Parking extends Space {
-  color: string; // What color to display on board
-  corner: true; // You guessed it
-
-  constructor(name: string, type: string, color: string, corner: true) {
-    super(name, type);
-    this.color = color;
-    this.corner = corner;
-  }
-}
-
-export class Go_To_Jail extends Space {
-  color: string; // What color to display on board
-  corner: true; // You guessed it
-
-  constructor(name: string, type: string, color: string, corner: true) {
-    super(name, type);
-    this.color = color;
-    this.corner = corner;
-  }
-}
-
-export class Community_Chest extends Space {
-  constructor(name: string, type: string) {
-    super(name, type);
-  }
-}
-
-export class Chance extends Space {
-  constructor(name: string, type: string) {
-    super(name, type);
-  }
-}
-
-export class Tax extends Space {
-  cost: number; // amount to pay
-  color: string; // What color to display on board
-
-  constructor(name: string, type: string, cost: number, color: string) {
-    super(name, type);
-    this.cost = cost;
-    this.color = color;
-  }
-}
-
-export class Utility extends Space {
-  cost: number; // amount to pay
-  group: number[];
-  color: string; // What color to display on board
-
-  constructor(
-    name: string,
-    type: string,
-    cost: number,
-    group: number[],
-    color: string
-  ) {
-    super(name, type);
-    this.cost = cost;
-    this.group = group;
-    this.color = color;
   }
 }

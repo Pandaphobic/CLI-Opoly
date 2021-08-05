@@ -1,25 +1,142 @@
 import { Player } from "./player";
 import { logTurn } from "./app";
-import {
-  Space,
-  Property,
-  Go,
-  Jail,
-  Free_Parking,
-  Go_To_Jail,
-  Community_Chest,
-  Chance,
-  Tax,
-  Utility,
-} from "./spaces";
+import { Space } from "./spaces";
 import * as BOARD from "./boards/original.json";
 
 export const board = () => {
-  // const board_obj: [] = BOARD;
+  // init board
+  let board: Space[] = [];
 
-  for (let i = 0; i < BOARD.length; i++) {
-    console.log(BOARD[i]);
+  for (let i = 0; i < 40; i++) {
+    if (BOARD[i].type == "go") {
+      let name: string = BOARD[i].name,
+        type: string = BOARD[i].type;
+
+      let go = new Space(name, type);
+      board.push(go);
+    }
+
+    if (BOARD[i].type == "property") {
+      let name: string = BOARD[i].name,
+        type: string = BOARD[i].type,
+        cost: number = BOARD[i].cost,
+        color: string = BOARD[i].color,
+        rent: number[] = BOARD[i].rent,
+        group: number[] = BOARD[i].group,
+        house: number = BOARD[i].house;
+
+      let prop = new Space(name, type, cost, color, rent, group, house);
+      board.push(prop);
+    }
+    if (BOARD[i].type == "community-chest") {
+      let name: string = BOARD[i].name,
+        type: string = BOARD[i].type;
+
+      let comm = new Space(name, type);
+      board.push(comm);
+    }
+    // TAX
+    if (BOARD[i].type == "tax") {
+      let name: string = BOARD[i].name,
+        type: string = BOARD[i].type,
+        cost: number = BOARD[i].cost,
+        color: string = BOARD[i].color;
+
+      let tax = new Space(name, type, cost, color);
+      board.push(tax);
+    }
+    if (BOARD[i].type == "railroad") {
+      let name: string = BOARD[i].name,
+        type: string = BOARD[i].type,
+        cost: number = BOARD[i].cost,
+        group: number[] = BOARD[i].group;
+
+      let railroad = new Space(name, type, cost, undefined, undefined, group);
+      board.push(railroad);
+    }
+    if (BOARD[i].type == "chance") {
+      let name: string = BOARD[i].name,
+        type: string = BOARD[i].type;
+
+      let chance = new Space(name, type);
+      board.push(chance);
+    }
+    if (BOARD[i].type == "jail") {
+      let name: string = BOARD[i].name,
+        type: string = BOARD[i].type,
+        color: string = BOARD[i].color,
+        corner: boolean = true;
+
+      let jail = new Space(
+        name,
+        type,
+        undefined,
+        color,
+        undefined,
+        undefined,
+        undefined,
+        corner
+      );
+      board.push(jail);
+    }
+    if (BOARD[i].type == "utility") {
+      let name: string = BOARD[i].name,
+        type: string = BOARD[i].type,
+        cost: number = BOARD[i].cost,
+        color: string = BOARD[i].color,
+        group: number[] = BOARD[i].group;
+
+      let utility = new Space(
+        name,
+        type,
+        cost,
+        color,
+        undefined,
+        group,
+        undefined,
+        undefined
+      );
+      board.push(utility);
+    }
+    if (BOARD[i].type == "free-parking") {
+      let name: string = BOARD[i].name,
+        type: string = BOARD[i].type,
+        cost: number = BOARD[i].cost,
+        color: string = BOARD[i].color,
+        corner: boolean = BOARD[i].corner;
+
+      let free_parking = new Space(
+        name,
+        type,
+        cost,
+        color,
+        undefined,
+        undefined,
+        undefined,
+        corner
+      );
+      board.push(free_parking);
+    }
+    if (BOARD[i].type == "go-to-jail") {
+      let name: string = BOARD[i].name,
+        type: string = BOARD[i].type,
+        color: string = BOARD[i].color,
+        corner: boolean = BOARD[i].corner;
+
+      let go_to_jail = new Space(
+        name,
+        type,
+        undefined,
+        color,
+        undefined,
+        undefined,
+        undefined,
+        corner
+      );
+      board.push(go_to_jail);
+    }
   }
+  console.log(board);
   return board;
 };
 
