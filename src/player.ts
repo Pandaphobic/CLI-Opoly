@@ -42,7 +42,6 @@ export class Player {
   //   let newPropArray = this.owned_properties.filter([property_to_remove.name])
   //   owned_properties = newPropArray;
   // }
-  
 
 
 }
