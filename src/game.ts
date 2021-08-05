@@ -19,11 +19,11 @@ export const board = () => {
     if (BOARD[i].type == "property") {
       let name: string = BOARD[i].name,
         type: string = BOARD[i].type,
-        cost: number = BOARD[i].cost,
-        color: string = BOARD[i].color,
-        rent: number[] = BOARD[i].rent,
-        group: number[] = BOARD[i].group,
-        house: number = BOARD[i].house;
+        cost: number = BOARD[i].cost!,
+        color: string = BOARD[i].color!,
+        rent: number[] = BOARD[i].rent!,
+        group: number[] = BOARD[i].group!,
+        house: number = BOARD[i].house!;
 
       let prop = new Space(name, type, cost, color, rent, group, house);
       board.push(prop);
@@ -39,8 +39,8 @@ export const board = () => {
     if (BOARD[i].type == "tax") {
       let name: string = BOARD[i].name,
         type: string = BOARD[i].type,
-        cost: number = BOARD[i].cost,
-        color: string = BOARD[i].color;
+        cost: number = BOARD[i].cost!,
+        color: string = BOARD[i].color!;
 
       let tax = new Space(name, type, cost, color);
       board.push(tax);
@@ -48,8 +48,8 @@ export const board = () => {
     if (BOARD[i].type == "railroad") {
       let name: string = BOARD[i].name,
         type: string = BOARD[i].type,
-        cost: number = BOARD[i].cost,
-        group: number[] = BOARD[i].group;
+        cost: number = BOARD[i].cost!,
+        group: number[] = BOARD[i].group!;
 
       let railroad = new Space(name, type, cost, undefined, undefined, group);
       board.push(railroad);
@@ -64,7 +64,7 @@ export const board = () => {
     if (BOARD[i].type == "jail") {
       let name: string = BOARD[i].name,
         type: string = BOARD[i].type,
-        color: string = BOARD[i].color,
+        color: string = BOARD[i].color!,
         corner: boolean = true;
 
       let jail = new Space(
@@ -82,9 +82,9 @@ export const board = () => {
     if (BOARD[i].type == "utility") {
       let name: string = BOARD[i].name,
         type: string = BOARD[i].type,
-        cost: number = BOARD[i].cost,
-        color: string = BOARD[i].color,
-        group: number[] = BOARD[i].group;
+        cost: number = BOARD[i].cost!,
+        color: string = BOARD[i].color!,
+        group: number[] = BOARD[i].group!;
 
       let utility = new Space(
         name,
@@ -101,9 +101,9 @@ export const board = () => {
     if (BOARD[i].type == "free-parking") {
       let name: string = BOARD[i].name,
         type: string = BOARD[i].type,
-        cost: number = BOARD[i].cost,
-        color: string = BOARD[i].color,
-        corner: boolean = BOARD[i].corner;
+        cost: number = BOARD[i].cost!,
+        color: string = BOARD[i].color!,
+        corner: boolean = BOARD[i].corner!;
 
       let free_parking = new Space(
         name,
@@ -120,8 +120,8 @@ export const board = () => {
     if (BOARD[i].type == "go-to-jail") {
       let name: string = BOARD[i].name,
         type: string = BOARD[i].type,
-        color: string = BOARD[i].color,
-        corner: boolean = BOARD[i].corner;
+        color: string = BOARD[i].color!,
+        corner: boolean = BOARD[i].corner!;
 
       let go_to_jail = new Space(
         name,

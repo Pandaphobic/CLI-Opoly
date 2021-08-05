@@ -1,14 +1,14 @@
-import { Property } from "./spaces";
+import { Space } from "./spaces";
 
 // prettier-ignore
 export class Player {
   name: string;                                 // Player display name
   turn: boolean;                                // Is it this players turn?
   money: number;                                // Amount of money player has
-  owned_properties: Property[];                 // Array of properties owened by player
+  owned_properties: Space[];                 // Array of properties owened by player
   current_position: number;
 
-  constructor(name: string, turn: boolean, money: number, owned_properties: Property[], current_position: number) {
+  constructor(name: string, turn: boolean, money: number, owned_properties: Space[], current_position: number) {
     this.name = name;
     this.turn = turn;
     this.money = money;
@@ -34,7 +34,7 @@ export class Player {
     return this.name
   }
 
-  addProperty(property_to_add: Property){
+  addProperty(property_to_add: Space){
     this.owned_properties.push(property_to_add)
   }
 

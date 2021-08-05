@@ -22,7 +22,7 @@ export class Space {
   ) {
     this.name = name;
     this.type = type;
-    this.cost = cost;
+    this.cost = cost!;
     this.color = color;
     this.rent = rent;
     this.group = group;
