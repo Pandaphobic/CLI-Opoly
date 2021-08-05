@@ -14,7 +14,12 @@ import {
 } from "./spaces";
 import * as BOARD from "./boards/original.json";
 
-const board = () => {
+export const board = () => {
+  // const board_obj: [] = BOARD;
+
+  for (let i = 0; i < BOARD.length; i++) {
+    console.log(BOARD[i]);
+  }
   return board;
 };
 

@@ -1,11 +1,12 @@
 import { Player } from "./player";
-
+import { board } from "./game";
 const blessed = require("blessed");
 import contrib = require("blessed-contrib");
 import { Property } from "./spaces";
 import { whoGoesFirst, whosTurnIsIt } from "./game"; // movePlayer
 import fs from "fs";
 import path from "path";
+// import { board } from "./boards/monopoly";
 const colors = require("colors/safe");
 
 const Players: Player[] = [];
@@ -513,6 +514,7 @@ export function logTurn(message: string) {
   turn_history.log(message);
 }
 
+board();
 // Determine who goes first
 // whoGoesFirst(Players);
 // movePlayer(whosTurnIsIt(Players), Board, Players);
