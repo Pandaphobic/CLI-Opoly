@@ -24,6 +24,7 @@
   "dependencies": {
     "blessed": "^0.1.81",
     "blessed-contrib": "^4.10.1",
-    "colors": "^1.4.0"
+    "colors": "^1.4.0",
+    "emojis": "^1.0.10"
   }
 }

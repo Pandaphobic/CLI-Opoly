@@ -8,6 +8,7 @@ import fs from "fs";
 import path from "path";
 // import { board } from "./boards/monopoly";
 const colors = require("colors/safe");
+const emojis = require("emojis");
 
 const Players: Player[] = [];
 
@@ -80,7 +81,15 @@ var player_bar = grid.set(0, 0, 1, 6, blessed.listbar, {
   },
 
   label: `${colors.bold("Players")}`,
-  items: ["Chris", "Calista", "Michael", "Megan"],
+  items: (() => {
+    let name_arr: string[] = [];
+
+    for (let i = 0; i < Players.length; i++) {
+      name_arr.push(Players[i].name);
+    }
+    console.log(name_arr);
+    return name_arr;
+  })(),
 });
 
 var player_details = grid.set(1, 0, 4, 3, blessed.list, {
@@ -160,6 +169,14 @@ var chat_input = grid.set(11, 0, 1, 3, blessed.textbox, {
   interactive: true,
   mouse: true,
   keys: true,
+});
+
+var prompt = blessed.prompt({
+  left: "center",
+  top: "center",
+  height: "shrink",
+  width: "shrink",
+  border: "line",
 });
 
 var turn_history = grid.set(5, 3, 3, 3, blessed.log, {
@@ -509,12 +526,12 @@ screen.key(["tab"], function () {
 
 player_bar.focus();
 screen.render();
+board();
 
 export function logTurn(message: string) {
   turn_history.log(message);
 }
 
-board();
 // Determine who goes first
 // whoGoesFirst(Players);
 // movePlayer(whosTurnIsIt(Players), Board, Players);
