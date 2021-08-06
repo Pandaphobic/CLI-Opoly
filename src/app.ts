@@ -1,27 +1,30 @@
-import { Player } from "./player";
-import { board } from "./game";
+// Libs
 const blessed = require("blessed");
+const colors = require("colors/safe");
 import contrib = require("blessed-contrib");
-import { Space } from "./spaces";
-import { whoGoesFirst, whosTurnIsIt } from "./game"; // movePlayer
 import fs from "fs";
 import path from "path";
-// import { board } from "./boards/monopoly";
-const colors = require("colors/safe");
-const emojis = require("emojis");
 
+// Types
+import { Player } from "./player";
+import { Board } from "./game";
+import { Space } from "./spaces";
+
+// Functions
+import { whoGoesFirst, whosTurnIsIt, movePlayer } from "./game"; // movePlayer
+
+// Assemble Player List
 const Players: Player[] = [];
-
-// console.log(Board);
 Players.push(new Player("Chris", false, 1500, [], 0));
 Players.push(new Player("Michael", false, 1500, [], 0));
 Players.push(new Player("Calista", false, 1500, [], 0));
 Players.push(new Player("Megan", false, 1500, [], 0));
 
+// Init CLUI
 var screen = blessed.screen();
 screen.title = "CLI-Opoly - A CLI Take on the Classic Game!";
 
-// INSTANTIATE GRID LAYOUT
+// Setup Grid Layout
 var grid = new contrib.grid({ rows: 12, cols: 12, screen: screen });
 
 var property_mgmt = grid.set(8, 3, 4, 4, blessed.list, {
@@ -39,26 +42,6 @@ var property_mgmt = grid.set(8, 3, 4, 4, blessed.list, {
   selectedBg: "blue",
   interactive: true,
   label: `${colors.bold("Property Mgmt.")}`,
-  border: { type: "line", fg: "cyan" },
-  columnSpacing: 10, //in chars
-  columnWidth: [16, 12, 12] /*in chars*/,
-});
-
-var board_details = grid.set(8, 7, 4, 5, blessed.list, {
-  style: {
-    focus: {
-      border: {
-        fg: "blue",
-      },
-    },
-  },
-  keys: true,
-  mouse: true,
-  fg: "white",
-  selectedFg: "white",
-  selectedBg: "blue",
-  interactive: true,
-  label: `${colors.bold("Board Details")}`,
   border: { type: "line", fg: "cyan" },
   columnSpacing: 10, //in chars
   columnWidth: [16, 12, 12] /*in chars*/,
@@ -87,7 +70,6 @@ var player_bar = grid.set(0, 0, 1, 6, blessed.listbar, {
     for (let i = 0; i < Players.length; i++) {
       name_arr.push(Players[i].name);
     }
-    console.log(name_arr);
     return name_arr;
   })(),
 });
@@ -134,8 +116,6 @@ var trade = grid.set(1, 3, 4, 3, blessed.list, {
   width: "30%",
   height: "30%",
   border: { type: "line", fg: "cyan" },
-  // columnSpacing: 10, //in chars
-  // columnWidth: [16, 12, 12] /*in chars*/,
 });
 
 var chat_box = grid.set(5, 0, 6, 3, blessed.log, {
@@ -155,8 +135,10 @@ var chat_box = grid.set(5, 0, 6, 3, blessed.log, {
   label: `${colors.bold("Chat")}`,
   border: { type: "line", fg: "cyan" },
   columnSpacing: 10, //in chars
-  columnWidth: [16, 12, 12] /*in chars*/,
+  columnWidth: [16] /*in chars*/,
 });
+
+chat_box.log(`⚀ ⚁ ⚂ ⚃ ⚄ ⚅`);
 
 var chat_input = grid.set(11, 0, 1, 3, blessed.textbox, {
   style: {
@@ -514,6 +496,32 @@ board_view.setData({
   ],
 });
 
+var board_details = grid.set(2, 7, 4, 4, contrib.table, {
+  // label: `${colors.bold("Board Details")}`,
+  style: {
+    fg: "yellow",
+    bold: true,
+  },
+  fg: "brightBlue",
+  selectedFg: "cyan",
+  selectedBg: "none",
+  interactive: true,
+  border: { type: "line", fg: "black" },
+  columnSpacing: 3, //in chars
+  columnWidth: [8, 19, 4] /*in chars*/,
+});
+
+board_details.setData({
+  headers: ["Player", "Position", "Turn"],
+  data: [
+    ["Chris", "L1 - Lt Purp. - 1", "*"],
+    ["Calista", "L8 - Gold - 2", " "],
+    ["Michael", "T3 - RED - 2", " "],
+    ["Megan", "JAIL - JAIL", " "],
+    ,
+  ],
+});
+
 screen.key(["escape", "q", "C-c"], function () {
   return process.exit(0);
 });
@@ -526,15 +534,15 @@ screen.key(["tab"], function () {
 
 player_bar.focus();
 screen.render();
-board();
+let GAME_BOARD = Board();
 
 export function logTurn(message: string) {
   turn_history.log(message);
 }
 
 // Determine who goes first
-// whoGoesFirst(Players);
-// movePlayer(whosTurnIsIt(Players), Board, Players);
-// movePlayer(whosTurnIsIt(Players), Board, Players);
-// movePlayer(whosTurnIsIt(Players), Board, Players);
-// movePlayer(whosTurnIsIt(Players), Board, Players);
+whoGoesFirst(Players);
+movePlayer(whosTurnIsIt(Players), GAME_BOARD, Players);
+movePlayer(whosTurnIsIt(Players), GAME_BOARD, Players);
+movePlayer(whosTurnIsIt(Players), GAME_BOARD, Players);
+movePlayer(whosTurnIsIt(Players), GAME_BOARD, Players);
