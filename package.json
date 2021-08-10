@@ -22,9 +22,10 @@
   },
   "homepage": "https://github.com/Pandaphobic/CLI-Opoly#readme",
   "dependencies": {
+    "@types/node-emoji": "^1.8.1",
     "blessed": "^0.1.81",
     "blessed-contrib": "^4.10.1",
     "colors": "^1.4.0",
-    "emojis": "^1.0.10"
+    "node-emoji": "^1.10.0"
   }
 }
