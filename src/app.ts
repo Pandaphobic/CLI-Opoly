@@ -31,7 +31,7 @@ const page2 = () => game_view_page(screen, Players);
 // Functions
 import { whoGoesFirst, whosTurnIsIt, movePlayer } from "./game"; // movePlayer
 
-var carousel = new contrib.carousel([page1, page2], {
+export var carousel = new contrib.carousel([page1, page2], {
   screen: screen,
   controlKeys: true,
 });

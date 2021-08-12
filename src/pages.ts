@@ -2,37 +2,124 @@
 const blessed = require("blessed");
 const colors = require("colors/safe");
 const contrib = require("blessed-contrib");
+import { line } from "blessed-contrib";
 import { screen } from "./app";
+import { carousel } from "./app";
 
-var grid_page_1 = new contrib.grid({ rows: 4, cols: 4, screen: screen });
 var grid_page_2 = new contrib.grid({ rows: 12, cols: 10, screen: screen });
 
 export const title_page = (screen: any) => {
-  var line = grid_page_1.set(1, 0, 2, 2, contrib.line, {
-    style: { line: "yellow", text: "green", baseline: "black" },
-    xLabelPadding: 3,
-    xPadding: 5,
-    label: "Stocks",
+  var form = blessed.form({
+    parent: screen,
+    keys: true,
+    left: 35,
+    top: 30,
+    width: 80,
+    height: 15,
+    // bg: "blue",
+    content: `                             ${colors.bold.brightWhite(
+      "Welcome to CLI-Opoly"
+    )}`,
+    border: {
+      type: "bg",
+      ch: "*",
+    },
   });
 
-  var map = grid_page_1.set(1, 2, 2, 2, contrib.map, {
-    label: "Servers Location",
+  var monopoly_artwork = blessed.image({
+    parent: screen,
+    top: 0,
+    left: 0,
+    type: "overlay",
+    width: "shrink",
+    height: "shrink",
+    file: __dirname + "/icon1.png",
+    search: true,
   });
 
-  var box = blessed.box({
-    content:
-      "click right-left arrows or wait 3 seconds for the next layout in the carousel",
-    top: "80%",
-    left: "10%",
+  var welcome_message = blessed.text({
+    parent: form,
+    mouse: true,
+    keys: true,
+    shrink: true,
+    padding: {
+      left: 1,
+      right: 1,
+    },
+    left: 6,
+    top: 2,
+    name: "start_game",
+    content: "Setup and start a game or enter you game code to join a session!",
+    style: {
+      fg: "white",
+    },
   });
-  screen.append(box);
 
-  var lineData = {
-    x: ["t1", "t2", "t3", "t4"],
-    y: [5, 1, 7, 5],
-  };
+  var start_game = blessed.button({
+    parent: form,
+    mouse: true,
+    keys: true,
+    shrink: true,
+    padding: {
+      left: 1,
+      right: 1,
+    },
+    left: 10,
+    top: 11,
+    name: "start_game",
+    content: "Start Game",
+    style: {
+      bg: "blue",
+      focus: {
+        bg: "red",
+      },
+      hover: {
+        bg: "red",
+      },
+    },
+  });
 
-  line.setData([lineData]);
+  var join_game = blessed.button({
+    parent: form,
+    mouse: true,
+    keys: true,
+    shrink: true,
+    padding: {
+      left: 1,
+      right: 1,
+    },
+    right: 10,
+    top: 11,
+    name: "join_game",
+    content: "Join Game",
+    style: {
+      bg: "blue",
+      focus: {
+        bg: "red",
+      },
+      hover: {
+        bg: "red",
+      },
+    },
+  });
+
+  start_game.on("press", function () {
+    carousel.next();
+  });
+
+  join_game.on("press", function () {
+    form.reset();
+  });
+
+  form.on("submit", function (data: any) {
+    form.setContent("Submitted.");
+    screen.render();
+  });
+
+  form.on("reset", function (data: any) {
+    form.setContent("Canceled.");
+    screen.render();
+  });
 };
 
 export const game_view_page = (screen: any, Players: any) => {
@@ -137,7 +224,7 @@ export const game_view_page = (screen: any, Players: any) => {
   });
 
   // prettier-ignore
-  var board_view = grid_page_2.set(0, 6, 9, 4, contrib.table, {
+  var board_view = grid_page_2.set(0, 6, 8, 4, contrib.table, {
     keys: true,
     fg: "white",
     selectedFg: "white",
