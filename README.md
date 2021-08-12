@@ -4,8 +4,7 @@ CLI-Opoly - A terrible rendition of a classic game!
 
 ### Early Mockup
 
-![cropped-board](https://user-images.githubusercontent.com/11794877/127191507-f1add4b0-e870-4013-9336-9f6dcbac1ab4.png)
-
+![Selection_001](https://user-images.githubusercontent.com/11794877/129271164-92f26e20-7958-44b4-8917-016f4c500940.png)
 
 ### Game Logic Flow Chart (WIP)
 
