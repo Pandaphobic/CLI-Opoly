@@ -1,11 +1,13 @@
 [
   {
+    "id": 0,
     "name": "Go",
     "type": "go",
     "corner": true,
     "color": "#955438"
   },
   {
+    "id": 1,
     "name": "Mediterranean Avenue",
     "type": "property",
     "cost": 60,
@@ -15,10 +17,12 @@
     "house": 50
   },
   {
+    "id": 2,
     "name": "Community Chest",
     "type": "community-chest"
   },
   {
+    "id": 3,
     "name": "Baltic Avenue",
     "type": "property",
     "cost": 60,
@@ -28,18 +32,21 @@
     "house": 50
   },
   {
+    "id": 4,
     "name": "Income Tax",
     "type": "tax",
     "cost": 200,
     "color": "#955438"
   },
   {
+    "id": 5,
     "name": "Reading Railroad",
     "type": "railroad",
     "cost": 200,
     "group": [9, 1, 4]
   },
   {
+    "id": 6,
     "name": "Oriental Avenue",
     "type": "property",
     "cost": 100,
@@ -49,10 +56,12 @@
     "house": 50
   },
   {
+    "id": 7,
     "name": "Chance",
     "type": "chance"
   },
   {
+    "id": 8,
     "name": "Vermont Avenue",
     "type": "property",
     "cost": 100,
@@ -62,6 +71,7 @@
     "house": 50
   },
   {
+    "id": 9,
     "name": "Connecticut Avenue",
     "type": "property",
     "cost": 120,
@@ -71,12 +81,14 @@
     "house": 50
   },
   {
+    "id": 10,
     "name": "Jail",
     "type": "jail",
     "corner": true,
     "color": "#955438"
   },
   {
+    "id": 11,
     "name": "St. Charles Place",
     "type": "property",
     "cost": 140,
@@ -86,6 +98,7 @@
     "house": 100
   },
   {
+    "id": 12,
     "name": "Electric Company",
     "type": "utility",
     "cost": 150,
@@ -93,6 +106,7 @@
     "color": "#955438"
   },
   {
+    "id": 13,
     "name": "States Avenue",
     "type": "property",
     "cost": 140,
@@ -102,6 +116,7 @@
     "house": 100
   },
   {
+    "id": 14,
     "name": "Virginia Avenue",
     "type": "property",
     "cost": 160,
@@ -111,12 +126,14 @@
     "house": 100
   },
   {
+    "id": 15,
     "name": "Pennsylvania Railroad",
     "type": "railroad",
     "cost": 200,
     "group": [9, 2, 4]
   },
   {
+    "id": 16,
     "name": "St. James Place",
     "type": "property",
     "cost": 180,
@@ -126,10 +143,12 @@
     "house": 100
   },
   {
+    "id": 17,
     "name": "Community Chest",
     "type": "community-chest"
   },
   {
+    "id": 18,
     "name": "Tennessee Avenue",
     "type": "property",
     "cost": 180,
@@ -139,6 +158,7 @@
     "house": 100
   },
   {
+    "id": 19,
     "name": "New York Avenue",
     "type": "property",
     "cost": 200,
@@ -148,12 +168,14 @@
     "house": 100
   },
   {
+    "id": 20,
     "name": "Free Parking",
     "type": "free-parking",
     "corner": true,
     "color": "#955438"
   },
   {
+    "id": 21,
     "name": "Kentucky Avenue",
     "type": "property",
     "cost": 220,
@@ -163,10 +185,12 @@
     "house": 150
   },
   {
+    "id": 22,
     "name": "Chance",
     "type": "chance"
   },
   {
+    "id": 23,
     "name": "Indiana Avenue",
     "type": "property",
     "cost": 220,
@@ -176,6 +200,7 @@
     "house": 150
   },
   {
+    "id": 24,
     "name": "Illnois Avenue",
     "type": "property",
     "cost": 240,
@@ -185,12 +210,14 @@
     "house": 150
   },
   {
+    "id": 25,
     "name": "B. & O. Railroad",
     "type": "railroad",
     "cost": 200,
     "group": [9, 3, 4]
   },
   {
+    "id": 26,
     "name": "Atlatic Avenue",
     "type": "property",
     "cost": 260,
@@ -200,6 +227,7 @@
     "house": 150
   },
   {
+    "id": 27,
     "name": "Ventura Avenue",
     "type": "property",
     "cost": 260,
@@ -209,6 +237,7 @@
     "house": 150
   },
   {
+    "id": 28,
     "name": "Water Works",
     "type": "utility",
     "cost": 150,
@@ -216,6 +245,7 @@
     "color": "#955438"
   },
   {
+    "id": 29,
     "name": "Marvin Gardens",
     "type": "property",
     "cost": 280,
@@ -225,12 +255,14 @@
     "house": 150
   },
   {
+    "id": 30,
     "name": "Go To Jail",
     "type": "go-to-jail",
     "corner": true,
     "color": "#955438"
   },
   {
+    "id": 31,
     "name": "Pacific Avenue",
     "type": "property",
     "cost": 300,
@@ -240,6 +272,7 @@
     "house": 200
   },
   {
+    "id": 32,
     "name": "North Carolina Avenue",
     "type": "property",
     "cost": 300,
@@ -249,10 +282,12 @@
     "house": 200
   },
   {
+    "id": 33,
     "name": "Community Chest",
     "type": "community-chest"
   },
   {
+    "id": 34,
     "name": "Pennsylvania Avenue",
     "type": "property",
     "cost": 320,
@@ -262,16 +297,19 @@
     "house": 200
   },
   {
+    "id": 35,
     "name": "Shortline",
     "type": "railroad",
     "cost": 200,
     "group": [9, 4, 4]
   },
   {
+    "id": 36,
     "name": "Chance",
     "type": "chance"
   },
   {
+    "id": 37,
     "name": "Park Place",
     "type": "property",
     "cost": 350,
@@ -281,12 +319,14 @@
     "house": 200
   },
   {
+    "id": 38,
     "name": "Luxury Tax",
     "type": "tax",
     "cost": 100,
     "color": "#955438"
   },
   {
+    "id": 39,
     "name": "Boardwalk",
     "type": "property",
     "cost": 400,

@@ -1,5 +1,4 @@
 import { Player } from "./player";
-import { logTurn } from "./app";
 import { Space } from "./spaces";
 import * as BOARD from "./boards/original.json";
 
@@ -157,7 +156,6 @@ export const whoGoesFirst = (Players: Player[]) => {
 
   // It is now the winners turn
   Players[winnerIndex].turn = true;
-  logTurn(`${winner.name} rolled the highest: ${highRoll}`);
 };
 
 export const whosTurnIsIt = (Players: Player[]) => {
@@ -194,12 +192,6 @@ export const movePlayer = (turn: any[], Board: Space[], Players: Player[]) => {
 
   // Update Player current_position
   player.current_position = newSpace;
-
-  // // Move user to the current position
-  logTurn(`${player.name} moved to ${player.current_position}`);
-
-  // Log Result
-  // log.log(Board[turn[1].current_position]);
 
   // Change turn
   player.turn = false;
