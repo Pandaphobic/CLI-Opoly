@@ -1,6 +1,7 @@
 /*  Using Classes to Describe the traits for each space type on the board  */
 
 export class Space {
+  id: number;
   name: string;
   type: string;
   cost?: number;
@@ -11,6 +12,7 @@ export class Space {
   corner?: boolean; //
 
   constructor(
+    id: number,
     name: string,
     type: string,
     cost?: number,
@@ -20,6 +22,7 @@ export class Space {
     house?: number,
     corner?: boolean
   ) {
+    this.id = id;
     this.name = name;
     this.type = type;
     this.cost = cost;

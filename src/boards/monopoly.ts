@@ -1,5 +1,6 @@
 export const board = [
   {
+    id: 0,
     name: "Go",
     type: "go",
     corner: true,
