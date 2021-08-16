@@ -1,6 +1,45 @@
-import { Player } from "./player";
 import { Space } from "./spaces";
 import * as BOARD from "./boards/original.json";
+
+// prettier-ignore
+export class Player {
+  name: string;                                 // Player display name
+  turn: boolean;                                // Is it this players turn?
+  money: number;                                // Amount of money player has
+  owned_properties: Space[];                 // Array of properties owened by player
+  current_position: number;
+
+  constructor(name: string, turn: boolean, money: number, owned_properties: Space[], current_position: number) {
+    this.name = name;
+    this.turn = turn;
+    this.money = money;
+    this.owned_properties = owned_properties;
+    this.current_position = current_position;
+    //COLLATERAL - ROLLING COUNT
+  }
+
+  pay = (recipient: string, money: number) => {
+    console.log(`${this.name} has paid ${recipient} $${money}`)
+  }
+
+  rollDice = () => {
+    const dice_1 = Math.floor(Math.random() *6) + 1
+    const dice_2 = Math.floor(Math.random() *6) + 1
+    const diceValue = dice_1 + dice_2
+
+    console.log(`${this.name} rolled: ${diceValue}`)
+    return diceValue;
+  }
+
+  getName(){
+    return this.name
+  }
+
+  addProperty(property_to_add: Space){
+    this.owned_properties.push(property_to_add)
+  }
+
+}
 
 export const Board = () => {
   // init board

@@ -1,0 +1,42 @@
+-- *MODEL* --
+Player Class
+  Money
+  Current position
+  Turn
+  Owned space.properties
+  Bankrupt: boolean
+Board Class //Used exclusively as reference for View layer - NO setters
+  Spaces
+  type
+  Name
+  Color
+  Price
+  House price
+  House #
+  Rent price array
+
+-- *VIEW* --
+Blessed Pages / Carousel
+  Main Menu
+    Start
+    Join
+    Settings
+    Help
+    About
+  Setup Page
+    Lobby settings
+    Player count
+    Starting money
+    Rules
+    Player name
+
+Controller:
+  Modifies:
+    Space ownership
+    Rent price
+    Player position
+    Current turn
+    Checks
+    Win conditions
+    Loss conditions
+    Available actions

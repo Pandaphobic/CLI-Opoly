@@ -7,31 +7,22 @@ import fs from "fs";
 import path from "path";
 
 // Types
-import { Player } from "./player";
 import { Board } from "./game";
-import { Space } from "./spaces";
+
+// Functions
+import { whoGoesFirst, whosTurnIsIt, movePlayer } from "./game"; // movePlayer
 
 // Init CLUI
 export var screen = blessed.screen();
 screen.title = "CLI-Opoly - A CLI Take on the Classic Game!";
 
-// Assemble Player List
-const Players: Player[] = [];
-Players.push(new Player("Chris", false, 1500, [], 0));
-Players.push(new Player("Michael", false, 1500, [], 0));
-Players.push(new Player("Calista", false, 1500, [], 0));
-Players.push(new Player("Megan", false, 1500, [], 0));
-
-// Pages
+// Pages Import + Init (Blessed Carousel Screens)
 import { title_page, game_view_page } from "./pages";
-
 const page1 = () => title_page(screen);
-const page2 = () => game_view_page(screen, Players);
+// const page2 = () => game_view_page(screen, Players);
 
-// Functions
-import { whoGoesFirst, whosTurnIsIt, movePlayer } from "./game"; // movePlayer
-
-export var carousel = new contrib.carousel([page1, page2], {
+export var carousel = new contrib.carousel([page1], {
+  //, page2
   screen: screen,
   controlKeys: true,
 });

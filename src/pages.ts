@@ -547,19 +547,18 @@ export const game_view_page = (screen: any, Players: any) => {
     fg: "brightBlue",
     selectedFg: "cyan",
     selectedBg: "none",
-    interactive: true,
-    border: { type: "line", fg: "black" },
+    border: "none",
     columnSpacing: 3, //in chars
-    columnWidth: [8, 19, 4] /*in chars*/,
+    columnWidth: [8, 19] /*in chars*/,
   });
 
   board_details.setData({
-    headers: ["Player", "Position", "Turn"],
+    headers: ["Player", "Position"],
     data: [
-      ["Chris", "L1 - Lt Purp. - 1", "*"],
-      ["Calista", "L8 - Gold - 2", " "],
-      ["Michael", "T3 - RED - 2", " "],
-      ["Megan", "JAIL - JAIL", " "],
+      ["Chris", "L1 - Lt Purp. - 1"],
+      ["Calista", "L8 - Gold - 2"],
+      ["Michael", "T3 - RED - 2"],
+      ["Megan", "JAIL - JAIL"],
       ,
     ],
   });
