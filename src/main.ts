@@ -5,9 +5,9 @@ import { Player, ImportBoard } from "./game_state";
 import { newGame } from "./game_state";
 import * as BOARD from "./boards/original.json"; // make this user specifiable
 
-// Assemble Player List
+// Init Player List
 const Players: Player[] = [];
-
+// Prompt user for player names
 async function promptPlayerNames() {
   const response: any = await prompt([
     {
@@ -33,7 +33,7 @@ async function promptPlayerNames() {
   ]);
   return response;
 }
-
+// Create a player object with names from promptPlayerNames()
 async function setPlayers() {
   const playerNames = await promptPlayerNames();
   // Assemble Player List
@@ -48,3 +48,5 @@ setPlayers();
 
 const Game_Board = ImportBoard(BOARD);
 const Game_State = newGame(Players, Game_Board);
+
+Game_State.Players[0].rollDice();

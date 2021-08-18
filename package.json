@@ -5,7 +5,7 @@
   "name": "cli-opoly",
   "description": "CLI-Opoly - A terrible rendition of a classic game!",
   "version": "1.0.0",
-  "main": "./public/mains.js",
+  "main": "./public/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node public/main.js",

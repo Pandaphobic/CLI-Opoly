@@ -50,6 +50,22 @@ export class Player {
     return this.name
   }
 
+  getTurn(){
+    return this.turn
+  }
+
+  getMoney(){
+    return this.money
+  }
+
+  getProperties(){
+    return this.owned_properties
+  }
+
+  getCurrentPosition(){
+    return this.current_position
+  }
+
   addProperty(property_to_add: Space){
     this.owned_properties.push(property_to_add)
   }
