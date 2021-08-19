@@ -6,3 +6,15 @@
 ⚃	= dice 4
 ⚄	= dice 5
 ⚅ = dice 6
+
+Avatars
+☠ = Skull
+★ = Star
+☂ = Umbrella
+☘ = Clover
+☣ = Hazard
+☮ = Peace
+☭ = Brather
+☯ = Yin - Yang
+♛ = Crown
+☃ = SnoBro
