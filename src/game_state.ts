@@ -1,6 +1,6 @@
 import { Space } from "./spaces";
 
-class GameState {
+export class GameState {
   Players: Player[];
   Board: Space[];
 
@@ -249,6 +249,8 @@ export const whoGoesFirst = (Players: Player[]) => {
 
   // It is now the winners turn
   Players[winnerIndex].turn = true;
+  const result = whosTurnIsIt(Players);
+  return result;
 };
 
 export const whosTurnIsIt = (Players: Player[]) => {
