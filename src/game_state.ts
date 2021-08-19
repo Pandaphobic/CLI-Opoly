@@ -250,6 +250,8 @@ export const whoGoesFirst = (Players: Player[]) => {
   // It is now the winners turn
   Players[winnerIndex].turn = true;
   const result = whosTurnIsIt(Players);
+  result.push(highRoll);
+  /* RESULT = [INDEX OF PLAYER, PLAYER WHO'S TURN IT IS, HIGHEST ROLL VALUE] */
   return result;
 };
 
@@ -266,11 +268,9 @@ export const whosTurnIsIt = (Players: Player[]) => {
       result.push(turn);
     }
   });
-
+  /* RESULT = [INDEX OF PLAYER, PLAYER WHO'S TURN IT IS] */
   return result;
 };
-
-/* Turn array: INDEX OF PLAYER, PLAYER WHO'S TURN IT IS */
 
 export const movePlayer = (turn: any[], Board: Space[], Players: Player[]) => {
   let [index, player] = turn;

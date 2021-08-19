@@ -58,7 +58,9 @@ async function main() {
     const highRollWinner = whoGoesFirst(Game_State.Players);
 
     console.log(
-      `${Game_State.Players[highRollWinner[0]].name} won the high roll!`
+      `${Game_State.Players[highRollWinner[0]].name} won the high roll with ${
+        highRollWinner[2]
+      }`
     );
   }
 }
