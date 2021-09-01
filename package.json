@@ -26,6 +26,7 @@
     "blessed": "^0.1.81",
     "blessed-contrib": "^4.10.1",
     "colors": "^1.4.0",
+    "deasync": "^0.1.23",
     "enquirer": "^2.3.6",
     "node-emoji": "^1.10.0"
   }
