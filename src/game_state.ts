@@ -58,17 +58,11 @@ export class Player {
   
     // Update Player current_position
     player.current_position = newSpace;
-    
-    // Change turn
-    player.turn = false;
-    if (index + 1 > Players.length - 1) {
-      Players[0].turn = true;
-    } else {
-      Players[index + 1].turn = true;
-    }};
+  };
 
   endTurn = () => {
     this.turn = false
+    console.log(`${this.name} has ended their turn`)
   }
 
   startTurn = () => {

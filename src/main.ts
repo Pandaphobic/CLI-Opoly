@@ -1,8 +1,5 @@
 // Libs
 import { prompt } from "enquirer";
-var deasync = require('deasync');
-var cp = require('child_process');
-var exec = deasync(cp.exec);
 
 import { Player, ImportBoard } from "./game_state";
 import { newGame, GameState, whoGoesFirst, whosTurnIsIt } from "./game_state";
@@ -18,6 +15,8 @@ const Players: Player[] = [];
 
 async function main() {
   // Prompt user for player names
+
+  // SETUP PHASE
   async function promptPlayerNames() {
     const response: any = await prompt([
       {
@@ -84,33 +83,26 @@ async function main() {
 
   function nextTurn(previousPlayerIndex: number){
     // Set the current player turn to false
-
     const nextIndex = (previousPlayerIndex+1)
 
     Game_State.Players[previousPlayerIndex].endTurn()
+    // Set turn true for next player
     if(Game_State.Players.length > nextIndex){
-      console.log(`${Game_State.Players.length} is smaller than ${nextIndex}`)
-      
-      Game_State.Players[nextIndex].turn = true
-
+      Game_State.Players[nextIndex].startTurn()
     } else {
-      Game_State.Players[0].turn = true
-      console.log(`${Game_State.Players.length} is bigger than ${nextIndex}`)        
+      Game_State.Players[0].startTurn()
     }
-
     playTurn()
   }
 
   function playTurn(){
     const currentPlayer = whosTurnIsIt(Game_State.Players)
-    console.log(`the current player is ${currentPlayer[1].name}`)
     const playerIndex = currentPlayer[0]
     const playerInfo = currentPlayer[1]
     let roll = 0;
 
-
-    // Prompt user for player names
-    async function makeChoice() {
+    // Present Options to Current Player
+    async function choicePrompts() {
       const response: any = await prompt([
         {
           type: "Input",
@@ -121,18 +113,26 @@ async function main() {
       ]);
       return response;
     }
-    // Create a player object with names from promptPlayerNames()
-    async function afterPrompts() {
-      const choice = await makeChoice();
-      // Assemble Player List
+    /*
+      This is the Phase 1 of the turn.
+      Player prompted to Roll Dice or Trade
+      TODO:
+        - add property options
+        - conditional prompts / questions
+
+    */
+    async function presentOptions() {
+      // Trigger the prompts
+      const choice = await choicePrompts();
+      // Parse Response and execute corresponding action
       if(choice.options === "r" || "R"){
         roll = Game_State.Players[playerIndex].rollDice()
         Game_State.Players[playerIndex].movePlayer(Game_Board, Players, roll)
-        console.log(playerIndex)
+        // console.log(playerIndex)
         nextTurn(playerIndex)
       }
     }
-    afterPrompts();
+    presentOptions();
   }
 }
 
